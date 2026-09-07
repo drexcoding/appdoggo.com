@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DogGO Privacy Policy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap">
+<style>
+/* ── Tokens ──────────────────────────────────────────────────── */
+:root {
+  --bg:          #F4F7FD;
+  --surface:     #FFFFFF;
+  --text:        #0B1730;
+  --text-muted:  #5A6B8C;
+  --border:      #D8E1F2;
+  --accent:      #1D4ED8;
+  --accent-dim:  #E8EDF8;
+  --rail-active: #1D4ED8;
+  --rail-dot:    #A8BDEF;
+  --shadow:      0 1px 3px rgba(13,27,62,.07), 0 4px 16px rgba(13,27,62,.05);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg:          #090E1C;
+    --surface:     #101828;
+    --text:        #E8EDF8;
+    --text-muted:  #8A9BBF;
+    --border:      #1A2540;
+    --accent:      #5B82F0;
+    --accent-dim:  #111F42;
+    --rail-active: #5B82F0;
+    --rail-dot:    #2A3D6B;
+    --shadow:      0 1px 3px rgba(0,0,0,.3), 0 4px 16px rgba(0,0,0,.25);
+  }
+}
+:root[data-theme="dark"] {
+    --bg:          #090E1C;
+    --surface:     #101828;
+    --text:        #E8EDF8;
+    --text-muted:  #8A9BBF;
+    --border:      #1A2540;
+    --accent:      #5B82F0;
+    --accent-dim:  #111F42;
+    --rail-active: #5B82F0;
+    --rail-dot:    #2A3D6B;
+    --shadow:      0 1px 3px rgba(0,0,0,.3), 0 4px 16px rgba(0,0,0,.25);
+}
+
+/* ── Reset ───────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+/* ── Top header ──────────────────────────────────────────────── */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  padding: 0 2rem;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+.logo-paw {
+  width: 28px; height: 28px;
+  color: var(--accent);
+}
+.logo-name {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 1.125rem;
+  color: var(--text);
+  letter-spacing: -.01em;
+}
+.header-sep {
+  width: 1px; height: 20px;
+  background: var(--border);
+  flex-shrink: 0;
+}
+.header-doc {
+  font-size: .8125rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  letter-spacing: .02em;
+  text-transform: uppercase;
+}
+.header-date {
+  margin-left: auto;
+  font-size: .75rem;
+  color: var(--text-muted);
+}
+
+/* ── Layout ──────────────────────────────────────────────────── */
+.page-wrap {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 3.5rem;
+  align-items: start;
+}
+
+/* ── Sidebar TOC ─────────────────────────────────────────────── */
+.toc {
+  position: sticky;
+  top: 80px;
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
+}
+.toc-label {
+  font-family: 'Syne', sans-serif;
+  font-size: .6875rem;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+}
+.toc-list {
+  list-style: none;
+  border-left: 2px solid var(--border);
+  padding-left: 0;
+}
+.toc-item {
+  position: relative;
+}
+.toc-item::before {
+  content: '';
+  position: absolute;
+  left: -5px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--rail-dot);
+  transition: background .2s;
+}
+.toc-item.active::before { background: var(--rail-active); }
+.toc-link {
+  display: block;
+  padding: .375rem .75rem;
+  font-size: .8125rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color .15s;
+  line-height: 1.4;
+}
+.toc-link:hover,
+.toc-item.active .toc-link {
+  color: var(--accent);
+}
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-6px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+.toc-item {
+  animation: slideIn .3s ease both;
+}
+.toc-item:nth-child(1)  { animation-delay: .04s }
+.toc-item:nth-child(2)  { animation-delay: .07s }
+.toc-item:nth-child(3)  { animation-delay: .10s }
+.toc-item:nth-child(4)  { animation-delay: .13s }
+.toc-item:nth-child(5)  { animation-delay: .16s }
+.toc-item:nth-child(6)  { animation-delay: .19s }
+.toc-item:nth-child(7)  { animation-delay: .22s }
+.toc-item:nth-child(8)  { animation-delay: .25s }
+.toc-item:nth-child(9)  { animation-delay: .28s }
+.toc-item:nth-child(10) { animation-delay: .31s }
+.toc-item:nth-child(11) { animation-delay: .34s }
+.toc-item:nth-child(12) { animation-delay: .37s }
+.toc-item:nth-child(13) { animation-delay: .40s }
+
+/* Mobile TOC */
+.mobile-toc-toggle {
+  display: none;
+  width: 100%;
+  padding: .75rem 1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: .875rem;
+  font-weight: 500;
+  color: var(--text);
+  cursor: pointer;
+  text-align: left;
+  justify-content: space-between;
+  align-items: center;
+  gap: .5rem;
+  margin-bottom: 1rem;
+}
+.mobile-toc-toggle svg { transition: transform .2s; }
+.mobile-toc-toggle.open svg { transform: rotate(180deg); }
+.toc-mobile-body { display: block; }
+
+/* ── Content ─────────────────────────────────────────────────── */
+.doc-content {
+  min-width: 0;
+}
+.doc-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.15;
+  letter-spacing: -.025em;
+  text-wrap: balance;
+  margin-bottom: .75rem;
+}
+.doc-meta {
+  display: flex;
+  gap: 1.25rem;
+  font-size: .8125rem;
+  color: var(--text-muted);
+  margin-bottom: 2.5rem;
+  padding-bottom: 2.5rem;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+.doc-meta strong { color: var(--text); font-weight: 500; }
+
+.intro-box {
+  background: var(--accent-dim);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 6px 6px 0;
+  padding: 1rem 1.25rem;
+  font-size: .9375rem;
+  color: var(--text);
+  margin-bottom: 3rem;
+  line-height: 1.65;
+}
+
+/* Sections */
+.doc-section {
+  margin-bottom: 3rem;
+  scroll-margin-top: 80px;
+}
+.section-heading {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.1875rem;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: -.01em;
+  text-wrap: balance;
+  margin-bottom: 1rem;
+  padding-bottom: .625rem;
+  border-bottom: 1px solid var(--border);
+}
+.doc-section p {
+  font-size: .9375rem;
+  color: var(--text);
+  margin-bottom: .875rem;
+  max-width: 68ch;
+}
+.doc-section ul,
+.doc-section ol {
+  padding-left: 1.5rem;
+  margin-bottom: .875rem;
+}
+.doc-section li {
+  font-size: .9375rem;
+  color: var(--text);
+  margin-bottom: .375rem;
+  max-width: 66ch;
+}
+.doc-section li::marker { color: var(--accent); }
+
+/* Sub-sections */
+.subsection-title {
+  font-weight: 600;
+  font-size: .9375rem;
+  color: var(--text);
+  margin-top: 1.5rem;
+  margin-bottom: .5rem;
+}
+
+/* Data table */
+.data-table-wrap { overflow-x: auto; margin: 1rem 0 1.5rem; }
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .875rem;
+}
+.data-table th {
+  background: var(--accent-dim);
+  color: var(--accent);
+  font-weight: 600;
+  font-size: .75rem;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  padding: .625rem 1rem;
+  text-align: left;
+  border-bottom: 2px solid var(--border);
+}
+.data-table td {
+  padding: .75rem 1rem;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+.data-table tr:last-child td { border-bottom: none; }
+.data-table tr:hover td { background: var(--accent-dim); }
+
+/* Contact block */
+.contact-block {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+  margin-top: 1rem;
+}
+.contact-block p { margin-bottom: .5rem; }
+.contact-block a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+}
+.contact-block a:hover { text-decoration: underline; }
+
+/* Footer */
+.doc-footer {
+  margin-top: 4rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+  font-size: .8125rem;
+  color: var(--text-muted);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: .5rem;
+}
+.doc-footer a { color: var(--accent); text-decoration: none; }
+.doc-footer a:hover { text-decoration: underline; }
+
+/* ── Responsive ──────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .page-wrap {
+    grid-template-columns: 1fr;
+    gap: 0;
+    padding: 1.5rem 1.25rem;
+  }
+  .toc {
+    position: static;
+    max-height: none;
+    overflow: visible;
+    margin-bottom: 2rem;
+  }
+  .mobile-toc-toggle { display: flex; }
+  .toc-mobile-body { display: none; }
+  .toc-mobile-body.open { display: block; }
+  .toc-list { margin-top: .5rem; }
+  .doc-title { font-size: 1.75rem; }
+  .site-header { padding: 0 1.25rem; }
+  .header-date { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="site-header">
+  <a href="#" class="logo" aria-label="DogGO">
+    <svg class="logo-paw" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <ellipse cx="5.5" cy="6.5" rx="2" ry="2.5" fill="currentColor" opacity=".7"/>
+      <ellipse cx="9" cy="4" rx="1.75" ry="2.25" fill="currentColor" opacity=".85"/>
+      <ellipse cx="13" cy="4" rx="1.75" ry="2.25" fill="currentColor" opacity=".85"/>
+      <ellipse cx="16.5" cy="6.5" rx="2" ry="2.5" fill="currentColor" opacity=".7"/>
+      <path d="M12 9c-3.5 0-6.5 2-6.5 5.5C5.5 18.5 8 21 12 21s6.5-2.5 6.5-6.5C18.5 11 15.5 9 12 9z" fill="currentColor"/>
+    </svg>
+    <span class="logo-name">DogGO</span>
+  </a>
+  <div class="header-sep" aria-hidden="true"></div>
+  <span class="header-doc">Privacy Policy</span>
+  <span class="header-date">Last updated: September 1, 2026</span>
+</header>
+
+<div class="page-wrap">
+
+  <!-- Sidebar -->
+  <aside class="toc" aria-label="Table of contents">
+    <button class="mobile-toc-toggle" aria-expanded="false" onclick="toggleToc(this)">
+      Table of Contents
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <div class="toc-mobile-body" id="toc-body">
+      <div class="toc-label">Contents</div>
+      <ol class="toc-list" id="toc-list">
+        <li class="toc-item"><a class="toc-link" href="#overview">Overview</a></li>
+        <li class="toc-item"><a class="toc-link" href="#information-we-collect">Information We Collect</a></li>
+        <li class="toc-item"><a class="toc-link" href="#how-we-use">How We Use Your Information</a></li>
+        <li class="toc-item"><a class="toc-link" href="#how-we-share">How We Share Your Information</a></li>
+        <li class="toc-item"><a class="toc-link" href="#third-parties">Third-Party Services</a></li>
+        <li class="toc-item"><a class="toc-link" href="#ai-usage">Artificial Intelligence</a></li>
+        <li class="toc-item"><a class="toc-link" href="#data-retention">Data Retention</a></li>
+        <li class="toc-item"><a class="toc-link" href="#your-rights">Your Rights</a></li>
+        <li class="toc-item"><a class="toc-link" href="#childrens-privacy">Children's Privacy</a></li>
+        <li class="toc-item"><a class="toc-link" href="#international-transfers">International Transfers</a></li>
+        <li class="toc-item"><a class="toc-link" href="#security">Security</a></li>
+        <li class="toc-item"><a class="toc-link" href="#breach-notification">Data Breach Notification</a></li>
+        <li class="toc-item"><a class="toc-link" href="#changes">Changes to This Policy</a></li>
+        <li class="toc-item"><a class="toc-link" href="#contact">Contact Us</a></li>
+      </ol>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="doc-content" id="main-content">
+    <h1 class="doc-title">Privacy Policy</h1>
+    <div class="doc-meta">
+      <span><strong>App:</strong> DogGO</span>
+      <span><strong>Developer:</strong> Anima Ignea</span>
+      <span><strong>Effective:</strong> September 1, 2026</span>
+      <span><strong>Last updated:</strong> September 1, 2026</span>
+    </div>
+
+    <div class="intro-box">
+      DogGO is built by dog lovers, for dog lovers. <strong>We collect user data</strong> — including location, profile information, and dog details — only what we need to make your walks better. We handle it with care and never sell it. This policy explains exactly what we collect, why, and how you can control it.
+    </div>
+
+    <!-- 1. Overview -->
+    <section class="doc-section" id="overview">
+      <h2 class="section-heading">1. Overview</h2>
+      <p>This Privacy Policy describes how Anima Ignea ("we", "us", "our") collects, uses, and protects information when you use the DogGO mobile application ("DogGO" or the "App") on iOS and Android devices.</p>
+      <p><strong>We collect user data.</strong> This includes precise GPS location while you walk, your account details, your dogs' profiles, and in-app activity. We do so to provide the core walk-tracking experience and maintain your account. By creating an account or using DogGO, you agree to the practices described in this policy. If you do not agree, please do not use the App.</p>
+      <p>This policy applies to:</p>
+      <ul>
+        <li>The DogGO mobile application on iOS and Android</li>
+        <li>Our backend services, including authentication, database, and storage</li>
+        <li>Any future web-based services operated by Anima Ignea under the DogGO brand</li>
+      </ul>
+    </section>
+
+    <!-- 2. Information We Collect -->
+    <section class="doc-section" id="information-we-collect">
+      <h2 class="section-heading">2. Information We Collect</h2>
+
+      <p class="subsection-title">2.1 Information you provide directly</p>
+      <ul>
+        <li><strong>Account information:</strong> When you sign up via Google or Facebook, we receive your name, email address, and profile picture from those providers. You may also set a custom display name and upload a profile photo within DogGO. Uploaded photos are stored in private, access-controlled cloud storage — not in a publicly accessible location.</li>
+        <li><strong>Dog profile information:</strong> Breed, date of birth, weight, food preferences, and medications you enter for each of your dogs. Premium users also store vaccination records.</li>
+        <li><strong>Guest access:</strong> If you use the App as a guest, we assign a temporary anonymous identifier and store walk data locally. This data is linked to your account if you later sign up.</li>
+      </ul>
+
+      <p class="subsection-title">2.2 Information collected automatically during use</p>
+      <ul>
+        <li><strong>Precise GPS location:</strong> When you start a walk, the App collects your device's GPS coordinates continuously to draw your route on the map, calculate distance, and validate walk data. Location is only collected while a walk is active and you have granted location permission.</li>
+        <li><strong>Walk data:</strong> Start/end timestamps, total distance (in kilometers), duration, and route coordinates for each recorded walk.</li>
+        <li><strong>In-app activity:</strong> XP earned, Biscuits balance, items purchased in the store, and your current plan (Free or Premium).</li>
+        <li><strong>Device information:</strong> Device model, operating system and version, app version, and a device identifier used for crash reporting and security purposes.</li>
+      </ul>
+
+      <p class="subsection-title">2.3 Information from third parties</p>
+      <ul>
+        <li><strong>Google:</strong> Name, email, and profile picture if you sign in with Google.</li>
+        <li><strong>Facebook / Meta:</strong> Name, email, and profile picture if you sign in with Facebook.</li>
+        <li><strong>Apple:</strong> Name and email if you sign in with Apple (where available).</li>
+      </ul>
+
+      <p class="subsection-title">2.4 What we do not collect</p>
+      <ul>
+        <li>We do not collect your location when you are not actively walking in the App.</li>
+        <li>We do not access your contacts, camera roll, microphone, or any other device data beyond what is explicitly listed above.</li>
+        <li>We do not collect or store payment card numbers. Payment processing is handled by Apple (App Store) and RevenueCat, and we only receive confirmation of completed transactions.</li>
+      </ul>
+    </section>
+
+    <!-- 3. How We Use -->
+    <section class="doc-section" id="how-we-use">
+      <h2 class="section-heading">3. How We Use Your Information</h2>
+      <div class="data-table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Purpose</th>
+              <th>Information used</th>
+              <th>Legal basis</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Provide walk tracking and mapping</td>
+              <td>GPS location, timestamps</td>
+              <td>Contract performance</td>
+            </tr>
+            <tr>
+              <td>Show your route, distance, and stats</td>
+              <td>Walk data, GPS route</td>
+              <td>Contract performance</td>
+            </tr>
+            <tr>
+              <td>Authenticate your account</td>
+              <td>Email, OAuth tokens</td>
+              <td>Contract performance</td>
+            </tr>
+            <tr>
+              <td>Store and display your dog's profile</td>
+              <td>Dog profile data</td>
+              <td>Contract performance</td>
+            </tr>
+            <tr>
+              <td>Manage XP, Biscuits, and Premium plan</td>
+              <td>In-app activity, purchase history</td>
+              <td>Contract performance</td>
+            </tr>
+            <tr>
+              <td>Validate GPS walk data (anti-fraud)</td>
+              <td>GPS coordinates, timestamps, speed</td>
+              <td>Legitimate interest</td>
+            </tr>
+            <tr>
+              <td>Prevent abuse and secure the service</td>
+              <td>Device info, usage patterns</td>
+              <td>Legitimate interest</td>
+            </tr>
+            <tr>
+              <td>Fix bugs and improve performance</td>
+              <td>Crash reports, device info</td>
+              <td>Legitimate interest</td>
+            </tr>
+            <tr>
+              <td>Comply with legal obligations</td>
+              <td>Any required data</td>
+              <td>Legal obligation</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>We do not use your data for advertising, and we do not sell your personal information to any third party.</p>
+    </section>
+
+    <!-- 4. How We Share -->
+    <section class="doc-section" id="how-we-share">
+      <h2 class="section-heading">4. How We Share Your Information</h2>
+      <p>We do not sell your personal data. We share it only in these limited circumstances:</p>
+      <ul>
+        <li><strong>Service providers:</strong> We use third-party infrastructure providers (Supabase, Mapbox) to operate the App. These providers process data only on our behalf under strict confidentiality agreements.</li>
+        <li><strong>Authentication providers:</strong> When you sign in with Google, Facebook, or Apple, those providers receive the authentication request as described in Section 5.</li>
+        <li><strong>Payment processors:</strong> If you make an in-app purchase, Apple's App Store and RevenueCat process the transaction. We only receive a receipt confirming the purchase.</li>
+        <li><strong>Legal requirements:</strong> We may disclose information if required by law, court order, or to protect the rights and safety of our users or the public.</li>
+        <li><strong>Business transfer:</strong> If Anima Ignea is involved in a merger or acquisition, user data may be transferred to the acquiring entity, who will be bound by this policy.</li>
+      </ul>
+    </section>
+
+    <!-- 5. Third-Party Services -->
+    <section class="doc-section" id="third-parties">
+      <h2 class="section-heading">5. Third-Party Services</h2>
+      <p>DogGO relies on the following third-party services. Each has its own privacy policy:</p>
+      <div class="data-table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Service</th>
+              <th>Purpose</th>
+              <th>Data received</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Supabase</strong></td>
+              <td>Database, authentication, file storage</td>
+              <td>All user and walk data; stored on AWS servers</td>
+            </tr>
+            <tr>
+              <td><strong>Mapbox</strong></td>
+              <td>Map rendering and routing</td>
+              <td>GPS coordinates during active walks</td>
+            </tr>
+            <tr>
+              <td><strong>Google</strong></td>
+              <td>OAuth sign-in</td>
+              <td>Email, name, profile picture (on sign-in)</td>
+            </tr>
+            <tr>
+              <td><strong>Facebook / Meta</strong></td>
+              <td>OAuth sign-in</td>
+              <td>Email, name, profile picture (on sign-in)</td>
+            </tr>
+            <tr>
+              <td><strong>Apple</strong></td>
+              <td>Sign In with Apple; in-app purchases</td>
+              <td>Email or relay address, name (on sign-in); purchase receipts</td>
+            </tr>
+            <tr>
+              <td><strong>RevenueCat</strong></td>
+              <td>In-app purchase validation (future)</td>
+              <td>App user ID, purchase receipts</td>
+            </tr>
+            <tr>
+              <td><strong>Expo / EAS</strong></td>
+              <td>App build and delivery</td>
+              <td>Build metadata; no user data during runtime</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="subsection-title" style="margin-top:1.5rem">5.2 Future third-party data collectors</p>
+      <p>We may in the future integrate third-party analytics or crash-reporting services (such as Sentry, Mixpanel, or similar providers) to help us understand how the App is used and diagnose technical issues. If and when we do, we will update this policy, add those providers to the table above, and notify you as described in Section 11. Any analytics provider we use will be limited to receiving anonymized or pseudonymized usage data and will be prohibited from using it for their own commercial purposes.</p>
+      <p>We encourage you to review each provider's privacy policy. We are not responsible for the privacy practices of third-party services.</p>
+    </section>
+
+    <!-- 6a. AI Usage -->
+    <section class="doc-section" id="ai-usage">
+      <h2 class="section-heading">6. Artificial Intelligence</h2>
+      <p><strong>DogGO does not currently use artificial intelligence or machine learning to process your personal data.</strong> Walk validation uses deterministic server-side rules (speed thresholds, point density checks) — not AI models.</p>
+      <p>If we introduce AI-powered features in the future — for example, personalized walk recommendations, dog health insights, or image recognition — we will:</p>
+      <ul>
+        <li>Update this policy to describe which AI systems are used, what personal data they process, and for what purpose.</li>
+        <li>Notify you through the App and, for material changes, by email before those features become active.</li>
+        <li>Never use your personal data to train third-party AI models without your explicit consent.</li>
+        <li>If any AI processing involves automated decision-making that produces legal or similarly significant effects on you, we will provide a way for you to request human review of that decision.</li>
+      </ul>
+    </section>
+
+    <!-- 7. Data Retention -->
+    <section class="doc-section" id="data-retention">
+      <h2 class="section-heading">7. Data Retention</h2>
+      <ul>
+        <li><strong>Active accounts:</strong> We retain your account and associated data for as long as your account exists.</li>
+        <li><strong>Walk history:</strong> Walk routes and stats are retained indefinitely unless you delete your account.</li>
+        <li><strong>Dog profiles:</strong> Retained until you manually delete the profile or your account.</li>
+        <li><strong>After account deletion:</strong> When you delete your account — whether through the App or by contacting us — we permanently delete your user profile (display name, email, profile photo), all dog profiles, walk history, XP and Biscuits balances, purchased items, and all other personal data associated with your account. Deletion is completed within 30 days. This action is irreversible.</li>
+        <li><strong>Financial records:</strong> Anonymized transaction records (stripped of personal identifiers) may be retained for up to 7 years as required by applicable tax and accounting law.</li>
+        <li><strong>Guest sessions:</strong> Data from guest sessions that are not linked to an account is deleted after 90 days of inactivity.</li>
+        <li><strong>Backup copies:</strong> Residual copies in encrypted system backups are purged within 90 days of primary deletion as backup cycles expire.</li>
+      </ul>
+      <p><strong>Important:</strong> Deleting the DogGO app from your device does not delete your account or personal data. Your data remains on our servers until you submit an explicit account deletion request as described in our <a href="data-deletion.html" style="color:var(--accent)">Data Deletion Policy</a>.</p>
+    </section>
+
+    <!-- 7. Your Rights -->
+    <section class="doc-section" id="your-rights">
+      <h2 class="section-heading">8. Your Rights and Choices</h2>
+      <p>Depending on your location, you have the following rights regarding your personal data. To exercise any right, contact us at <a href="mailto:doggoapp.management@gmail.com" style="color:var(--accent)">doggoapp.management@gmail.com</a>. We will confirm receipt within 10 business days and respond fully within 30 calendar days (extendable by 30 days for complex requests, with notice).</p>
+
+      <p class="subsection-title">8.1 Rights Available to All Users</p>
+      <p>Regardless of your location, you may at any time:</p>
+      <ul>
+        <li><strong>Access:</strong> Request a copy of the personal data we hold about you.</li>
+        <li><strong>Correction:</strong> Update or correct inaccurate information directly in the App (profile settings, dog profiles) or by contacting us.</li>
+        <li><strong>Deletion:</strong> Request deletion of your account and personal data. See our <a href="data-deletion.html" style="color:var(--accent)">Data Deletion Policy</a> for the complete process.</li>
+        <li><strong>Portability:</strong> Request an export of your data in a structured, machine-readable format (JSON).</li>
+        <li><strong>Withdraw consent:</strong> Where processing is based on your consent, you may withdraw it at any time without affecting the lawfulness of prior processing.</li>
+      </ul>
+      <p><strong>Location permissions:</strong> You can revoke location access at any time in your device settings. Walk tracking requires location permission; revoking it will disable that feature.</p>
+
+      <p class="subsection-title">8.2 Chile — Ley N° 19.628 and Ley N° 21.663 (AGPD)</p>
+      <p>If you are located in Chile, you have the following rights under the Ley sobre Protección de la Vida Privada (N° 19.628) and, as of its entry into force, Ley N° 21.663 and its regulations:</p>
+      <ul>
+        <li><strong>Acceso:</strong> Solicitar confirmación de si tratamos tus datos y obtener una copia.</li>
+        <li><strong>Rectificación:</strong> Solicitar la corrección de datos inexactos o incompletos.</li>
+        <li><strong>Cancelación / Eliminación:</strong> Solicitar la supresión de tus datos personales cuando no sean necesarios para la finalidad que motivó su recopilación.</li>
+        <li><strong>Oposición:</strong> Oponerte al tratamiento de tus datos en determinadas circunstancias.</li>
+        <li><strong>Portabilidad:</strong> Recibir tus datos en formato estructurado y legible por máquina.</li>
+        <li><strong>Revocación del consentimiento:</strong> Revocar tu consentimiento en cualquier momento sin efecto retroactivo.</li>
+      </ul>
+      <p>Si consideras que tus derechos han sido vulnerados y nuestra respuesta no es satisfactoria, podrás presentar un reclamo ante la <strong>Agencia de Protección de Datos Personales (AGPD)</strong> de Chile, la autoridad supervisora competente conforme a Ley N° 21.663. También puedes acudir al Servicio Nacional del Consumidor (SERNAC) para asuntos de consumo relacionados con el uso de la aplicación.</p>
+
+      <p class="subsection-title">8.3 United States</p>
+      <p><strong>California residents (CCPA / CPRA):</strong> Under the California Consumer Privacy Act and the California Privacy Rights Act, California residents have the right to: (i) know what personal information we collect, use, disclose, and sell; (ii) delete personal information we have collected, subject to certain exceptions; (iii) correct inaccurate personal information; (iv) opt out of the sale or sharing of personal information for cross-context behavioral advertising — <em>we do not sell or share personal information</em>; (v) limit the use of sensitive personal information — we do not use sensitive personal information beyond what is necessary to provide the service; and (vi) non-discrimination for exercising these rights. To submit a verifiable CCPA/CPRA request, contact us at <a href="mailto:doggoapp.management@gmail.com" style="color:var(--accent)">doggoapp.management@gmail.com</a> with the subject line "California Privacy Request."</p>
+      <p><strong>Virginia residents (VCDPA):</strong> Virginia residents may exercise rights of access, correction, deletion, portability, and opt-out of targeted advertising and profiling under the Virginia Consumer Data Protection Act. We do not engage in targeted advertising or profiling that produces legal effects.</p>
+      <p><strong>Colorado, Connecticut, and other state privacy laws:</strong> Residents of states with enacted comprehensive privacy statutes (including Colorado CPA, Connecticut CTDPA, and others that may come into force) may exercise equivalent rights. Contact us to make a request.</p>
+      <p><strong>Children (COPPA):</strong> DogGO does not knowingly collect personal information from children under 13. If you are a parent or guardian and believe your child has provided personal information, contact us immediately and we will delete it. Where required by applicable law, we will obtain verifiable parental consent before collecting any personal information from users under 13.</p>
+
+      <p class="subsection-title">8.4 European Economic Area (GDPR)</p>
+      <p>If you are located in the EEA, you have rights under the EU General Data Protection Regulation (GDPR 2016/679):</p>
+      <ul>
+        <li><strong>Art. 15 — Access:</strong> Obtain confirmation of processing and a copy of your data.</li>
+        <li><strong>Art. 16 — Rectification:</strong> Correct inaccurate or incomplete data without undue delay.</li>
+        <li><strong>Art. 17 — Erasure ("right to be forgotten"):</strong> Request deletion where the data is no longer necessary, consent is withdrawn, or processing is unlawful.</li>
+        <li><strong>Art. 18 — Restriction:</strong> Request we restrict processing while a dispute is resolved.</li>
+        <li><strong>Art. 20 — Portability:</strong> Receive your data in a structured, commonly used, machine-readable format and transmit it to another controller.</li>
+        <li><strong>Art. 21 — Objection:</strong> Object to processing based on legitimate interests or for direct marketing (we do not engage in direct marketing).</li>
+        <li><strong>Art. 22 — Automated decisions:</strong> Not be subject to solely automated decisions producing significant legal effects. DogGO does not perform such processing.</li>
+      </ul>
+      <p>The legal bases we rely on are: <em>contract performance</em> (providing the App features), <em>legitimate interests</em> (security, fraud prevention, service improvement), and <em>consent</em> (optional features requiring location). If you believe we have violated your GDPR rights, you may lodge a complaint with the supervisory authority in your EU member state.</p>
+
+      <p class="subsection-title">8.5 United Kingdom (UK GDPR)</p>
+      <p>If you are located in the United Kingdom, the UK GDPR and Data Protection Act 2018 apply. You have the same substantive rights as EEA users described in §8.4 above. If you believe we have violated your rights, you may lodge a complaint with the <strong>Information Commissioner's Office (ICO)</strong> at ico.org.uk.</p>
+
+      <p class="subsection-title">8.6 Brazil (LGPD)</p>
+      <p>If you are located in Brazil, the Lei Geral de Proteção de Dados (LGPD — Lei N° 13.709/2018) grants you rights of: confirmation of processing, access, correction, anonymization or deletion of unnecessary/excessive data, portability, information about third-party sharing, and revocation of consent. You may also petition the <strong>Autoridade Nacional de Proteção de Dados (ANPD)</strong> if you believe your rights have been violated.</p>
+    </section>
+
+    <!-- 8. Children's Privacy -->
+    <section class="doc-section" id="childrens-privacy">
+      <h2 class="section-heading">9. Children's Privacy</h2>
+      <p>DogGO is not intended for children under the age of 13. We do not knowingly collect personal information from children under 13. If you are under 13, please do not create an account or use DogGO.</p>
+      <p>If we become aware that we have collected personal information from a child under 13, we will take steps to delete it promptly. If you are a parent or guardian and believe your child has provided us with personal information, please contact us at <a href="mailto:doggoapp.management@gmail.com" style="color:var(--accent)">doggoapp.management@gmail.com</a>.</p>
+      <p>Users between 13 and 17 should use DogGO with parental consent and guidance.</p>
+    </section>
+
+    <!-- 9. International Transfers -->
+    <section class="doc-section" id="international-transfers">
+      <h2 class="section-heading">10. International Data Transfers</h2>
+      <p>Anima Ignea is based in Chile. Our service providers — including Supabase (hosted on AWS) and Mapbox — are based in the United States. When you use DogGO, your information is transferred to and processed in the United States and possibly other countries, which may have different data protection laws than your home country.</p>
+      <p>We take steps to ensure your data is handled appropriately regardless of where it is processed, including:</p>
+      <ul>
+        <li><strong>Standard Contractual Clauses (SCCs):</strong> Where required by GDPR or UK GDPR for transfers to countries without an adequacy decision, we rely on the European Commission's standard contractual clauses or the UK's International Data Transfer Agreement (IDTA) with our processors.</li>
+        <li><strong>Chile — Ley N° 21.663:</strong> International transfers of Chilean residents' data are conducted in compliance with the international transfer requirements of Chile's new data protection framework, including ensuring adequate safeguards at the destination or obtaining explicit consent where required.</li>
+        <li><strong>Processor agreements:</strong> All our processors are bound by data processing agreements that require them to protect your data to standards at least equivalent to this policy.</li>
+        <li><strong>Adequacy:</strong> Where a transfer destination has received an adequacy decision from a relevant authority (e.g., the European Commission), we rely on that determination.</li>
+      </ul>
+      <p>This policy is governed by the laws of Chile, including Ley N° 19.628 and Ley N° 21.663 sobre Protección de Datos Personales. Where you are located in the European Economic Area, the United Kingdom, or Brazil, your rights under GDPR, UK GDPR, or LGPD respectively also apply as described in §8.</p>
+      <p>You may request more information about the specific safeguards we rely on for international transfers by contacting us at <a href="mailto:doggoapp.management@gmail.com" style="color:var(--accent)">doggoapp.management@gmail.com</a>.</p>
+    </section>
+
+    <!-- 10. Security -->
+    <section class="doc-section" id="security">
+      <h2 class="section-heading">11. Security</h2>
+      <p>We implement technical and organizational measures to protect your data, including:</p>
+      <ul>
+        <li>AES-256 encryption for session tokens stored on your device</li>
+        <li>HTTPS / TLS encryption for all data in transit</li>
+        <li>OAuth 2.0 with PKCE flow for secure authentication</li>
+        <li>Row-level security (RLS) in our database, so each user can only access their own data</li>
+        <li><strong>Private cloud storage:</strong> Profile photos and all user-uploaded files are stored in access-controlled, non-public storage buckets. Files are not publicly accessible via URL — retrieval requires authenticated requests that verify ownership.</li>
+        <li>Server-side GPS validation to detect and reject implausible walk data</li>
+      </ul>
+      <p>No method of transmission over the internet is 100% secure. While we use industry-standard protections, we cannot guarantee absolute security. In the event of a data breach that affects your rights, we will notify you as required by applicable law.</p>
+    </section>
+
+    <!-- 11b. Data Breach Notification -->
+    <section class="doc-section" id="breach-notification">
+      <h2 class="section-heading">12. Data Breach Notification</h2>
+      <p>In the event of a personal data breach that is likely to result in a risk to your rights and freedoms, we will notify the relevant supervisory authority within <strong>72 hours</strong> of becoming aware of the breach, where feasible, as required by applicable law (including GDPR Art. 33 and Ley N° 21.663).</p>
+      <p>If the breach is likely to result in a <em>high risk</em> to your rights and freedoms, we will also notify affected users directly without undue delay, including:</p>
+      <ul>
+        <li>A description of the nature of the breach and the categories of data affected.</li>
+        <li>The likely consequences of the breach.</li>
+        <li>The measures we have taken or propose to take to address the breach and mitigate its possible adverse effects.</li>
+        <li>Contact details for obtaining further information.</li>
+      </ul>
+      <p>Notification may be made via in-app notice, email to the address associated with your account, or — if individual notification is disproportionately burdensome — through a public communication of equivalent effectiveness.</p>
+      <p>We maintain an internal data breach register and conduct post-incident reviews to prevent recurrence. If you suspect a security incident involving your data, please notify us immediately at <a href="mailto:doggoapp.management@gmail.com" style="color:var(--accent)">doggoapp.management@gmail.com</a>.</p>
+    </section>
+
+    <!-- 11. Changes -->
+    <section class="doc-section" id="changes">
+      <h2 class="section-heading">13. Changes to This Policy</h2>
+      <p>We may update this Privacy Policy from time to time. When we make material changes, we will:</p>
+      <ul>
+        <li>Post the updated policy at this URL with a new "Last updated" date</li>
+        <li>Notify you through a notice in the App or via email (for material changes)</li>
+      </ul>
+      <p>Your continued use of DogGO after changes are posted constitutes acceptance of the updated policy. We encourage you to review this policy periodically.</p>
+    </section>
+
+    <!-- 12. Contact -->
+    <section class="doc-section" id="contact">
+      <h2 class="section-heading">14. Contact Us</h2>
+      <p>If you have questions, concerns, or requests regarding this Privacy Policy or your personal data, please reach out:</p>
+      <div class="contact-block">
+        <p><strong>Anima Ignea — DogGO Support</strong></p>
+        <p>Email: <a href="mailto:doggoapp.management@gmail.com">doggoapp.management@gmail.com</a></p>
+        <p>Country: Chile</p>
+      </div>
+      <p style="margin-top:1rem">We aim to respond to all privacy-related inquiries within 30 days.</p>
+    </section>
+
+    <footer class="doc-footer">
+      <span>© 2026 Anima Ignea. All rights reserved.</span>
+      <span>
+        <a href="terms.html">Terms of Service</a> ·
+        <a href="data-deletion.html">Data Deletion</a>
+      </span>
+    </footer>
+
+  </main>
+</div>
+
+<script>
+// Mobile TOC toggle
+function toggleToc(btn) {
+  const body = document.getElementById('toc-body');
+  const isOpen = btn.classList.toggle('open');
+  btn.setAttribute('aria-expanded', isOpen);
+  body.classList.toggle('open', isOpen);
+}
+
+// Active section highlighting
+const sections = document.querySelectorAll('.doc-section[id]');
+const tocItems = document.querySelectorAll('.toc-item');
+
+function updateToc() {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY + 100 >= s.offsetTop) current = s.id;
+  });
+  tocItems.forEach(item => {
+    const link = item.querySelector('.toc-link');
+    item.classList.toggle('active', link && link.getAttribute('href') === '#' + current);
+  });
+}
+
+window.addEventListener('scroll', updateToc, { passive: true });
+updateToc();
+</script>
+</body>
+</html>

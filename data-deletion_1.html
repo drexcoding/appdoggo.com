@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DogGO Data Deletion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap">
+<style>
+:root {
+  --bg:          #F4F7FD;
+  --surface:     #FFFFFF;
+  --text:        #0B1730;
+  --text-muted:  #5A6B8C;
+  --border:      #D8E1F2;
+  --accent:      #1D4ED8;
+  --accent-dim:  #E8EDF8;
+  --rail-active: #1D4ED8;
+  --rail-dot:    #A8BDEF;
+  --shadow:      0 1px 3px rgba(13,27,62,.07), 0 4px 16px rgba(13,27,62,.05);
+  --warn:        #92400E;
+  --warn-bg:     #FEF3C7;
+  --warn-border: #F59E0B;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg:          #090E1C;
+    --surface:     #101828;
+    --text:        #E8EDF8;
+    --text-muted:  #8A9BBF;
+    --border:      #1A2540;
+    --accent:      #5B82F0;
+    --accent-dim:  #111F42;
+    --rail-active: #5B82F0;
+    --rail-dot:    #2A3D6B;
+    --shadow:      0 1px 3px rgba(0,0,0,.3), 0 4px 16px rgba(0,0,0,.25);
+    --warn:        #FCD34D;
+    --warn-bg:     #1C160A;
+    --warn-border: #92400E;
+  }
+}
+:root[data-theme="dark"] {
+    --bg:          #090E1C;
+    --surface:     #101828;
+    --text:        #E8EDF8;
+    --text-muted:  #8A9BBF;
+    --border:      #1A2540;
+    --accent:      #5B82F0;
+    --accent-dim:  #111F42;
+    --rail-active: #5B82F0;
+    --rail-dot:    #2A3D6B;
+    --shadow:      0 1px 3px rgba(0,0,0,.3), 0 4px 16px rgba(0,0,0,.25);
+    --warn:        #FCD34D;
+    --warn-bg:     #1C160A;
+    --warn-border: #92400E;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+.site-header {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  padding: 0 2rem; height: 56px;
+  display: flex; align-items: center; gap: 1rem;
+}
+.logo { display: flex; align-items: center; gap: .5rem; text-decoration: none; flex-shrink: 0; }
+.logo-paw { width: 28px; height: 28px; color: var(--accent); }
+.logo-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.125rem; color: var(--text); letter-spacing: -.01em; }
+.header-sep { width: 1px; height: 20px; background: var(--border); flex-shrink: 0; }
+.header-doc { font-size: .8125rem; font-weight: 500; color: var(--text-muted); letter-spacing: .02em; text-transform: uppercase; }
+.header-date { margin-left: auto; font-size: .75rem; color: var(--text-muted); }
+
+.page-wrap {
+  max-width: 1120px; margin: 0 auto; padding: 3rem 2rem;
+  display: grid; grid-template-columns: 220px 1fr;
+  gap: 3.5rem; align-items: start;
+}
+.toc { position: sticky; top: 80px; max-height: calc(100vh - 100px); overflow-y: auto; }
+.toc-label { font-family: 'Syne', sans-serif; font-size: .6875rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 1rem; }
+.toc-list { list-style: none; border-left: 2px solid var(--border); padding-left: 0; }
+.toc-item { position: relative; }
+.toc-item::before { content: ''; position: absolute; left: -5px; top: 50%; transform: translateY(-50%); width: 8px; height: 8px; border-radius: 50%; background: var(--rail-dot); transition: background .2s; }
+.toc-item.active::before { background: var(--rail-active); }
+.toc-link { display: block; padding: .375rem .75rem; font-size: .8125rem; color: var(--text-muted); text-decoration: none; transition: color .15s; line-height: 1.4; }
+.toc-link:hover, .toc-item.active .toc-link { color: var(--accent); }
+@keyframes slideIn { from { opacity: 0; transform: translateX(-6px); } to { opacity: 1; transform: translateX(0); } }
+.toc-item { animation: slideIn .3s ease both; }
+.toc-item:nth-child(1) { animation-delay: .04s } .toc-item:nth-child(2) { animation-delay: .07s }
+.toc-item:nth-child(3) { animation-delay: .10s } .toc-item:nth-child(4) { animation-delay: .13s }
+.toc-item:nth-child(5) { animation-delay: .16s } .toc-item:nth-child(6) { animation-delay: .19s }
+
+.mobile-toc-toggle {
+  display: none; width: 100%; padding: .75rem 1rem;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+  font-family: 'DM Sans', sans-serif; font-size: .875rem; font-weight: 500; color: var(--text);
+  cursor: pointer; text-align: left; justify-content: space-between; align-items: center; gap: .5rem; margin-bottom: 1rem;
+}
+.mobile-toc-toggle svg { transition: transform .2s; }
+.mobile-toc-toggle.open svg { transform: rotate(180deg); }
+.toc-mobile-body { display: block; }
+
+.doc-content { min-width: 0; }
+.doc-title { font-family: 'Syne', sans-serif; font-size: 2.25rem; font-weight: 700; color: var(--text); line-height: 1.15; letter-spacing: -.025em; text-wrap: balance; margin-bottom: .75rem; }
+.doc-meta { display: flex; gap: 1.25rem; font-size: .8125rem; color: var(--text-muted); margin-bottom: 2.5rem; padding-bottom: 2.5rem; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+.doc-meta strong { color: var(--text); font-weight: 500; }
+
+.intro-box { background: var(--accent-dim); border-left: 3px solid var(--accent); border-radius: 0 6px 6px 0; padding: 1rem 1.25rem; font-size: .9375rem; color: var(--text); margin-bottom: 3rem; line-height: 1.65; }
+
+.doc-section { margin-bottom: 3rem; scroll-margin-top: 80px; }
+.section-heading { font-family: 'Syne', sans-serif; font-size: 1.1875rem; font-weight: 600; color: var(--text); letter-spacing: -.01em; text-wrap: balance; margin-bottom: 1rem; padding-bottom: .625rem; border-bottom: 1px solid var(--border); }
+.doc-section p { font-size: .9375rem; color: var(--text); margin-bottom: .875rem; max-width: 68ch; }
+.doc-section ul, .doc-section ol { padding-left: 1.5rem; margin-bottom: .875rem; }
+.doc-section li { font-size: .9375rem; color: var(--text); margin-bottom: .375rem; max-width: 66ch; }
+.doc-section li::marker { color: var(--accent); }
+.subsection-title { font-weight: 600; font-size: .9375rem; color: var(--text); margin-top: 1.5rem; margin-bottom: .5rem; }
+
+/* Steps */
+.steps { margin: 1.25rem 0; display: flex; flex-direction: column; gap: .75rem; }
+.step {
+  display: grid;
+  grid-template-columns: 36px 1fr;
+  gap: .875rem;
+  align-items: start;
+}
+.step-num {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: .875rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.step-body { padding-top: 4px; }
+.step-title { font-weight: 600; font-size: .9375rem; color: var(--text); margin-bottom: .25rem; }
+.step-desc { font-size: .875rem; color: var(--text-muted); line-height: 1.55; }
+.step-desc code { font-family: monospace; font-size: .8125rem; background: var(--accent-dim); color: var(--accent); padding: .125rem .375rem; border-radius: 4px; }
+
+/* Warning box */
+.warn-box {
+  background: var(--warn-bg);
+  border: 1px solid var(--warn-border);
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  margin: 1.25rem 0;
+  font-size: .9375rem;
+  color: var(--warn);
+  display: flex;
+  gap: .75rem;
+  align-items: flex-start;
+}
+.warn-icon { font-size: 1.125rem; flex-shrink: 0; margin-top: 1px; }
+
+/* Data table */
+.data-table-wrap { overflow-x: auto; margin: 1rem 0 1.5rem; }
+.data-table { width: 100%; border-collapse: collapse; font-size: .875rem; }
+.data-table th { background: var(--accent-dim); color: var(--accent); font-weight: 600; font-size: .75rem; letter-spacing: .05em; text-transform: uppercase; padding: .625rem 1rem; text-align: left; border-bottom: 2px solid var(--border); }
+.data-table td { padding: .75rem 1rem; color: var(--text); border-bottom: 1px solid var(--border); vertical-align: top; }
+.data-table tr:last-child td { border-bottom: none; }
+.data-table tr:hover td { background: var(--accent-dim); }
+.badge {
+  display: inline-block;
+  padding: .125rem .5rem;
+  border-radius: 4px;
+  font-size: .75rem;
+  font-weight: 600;
+  letter-spacing: .03em;
+}
+.badge-del { background: #FEE2E2; color: #991B1B; }
+.badge-anon { background: var(--accent-dim); color: var(--accent); }
+.badge-keep { background: #DCFCE7; color: #166534; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .badge-del { background: #3B0A0A; color: #FCA5A5; }
+  :root:not([data-theme="light"]) .badge-keep { background: #052E16; color: #86EFAC; }
+}
+:root[data-theme="dark"] .badge-del { background: #3B0A0A; color: #FCA5A5; }
+:root[data-theme="dark"] .badge-keep { background: #052E16; color: #86EFAC; }
+
+/* Contact block */
+.contact-block { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; box-shadow: var(--shadow); margin-top: 1rem; }
+.contact-block p { margin-bottom: .5rem; }
+.contact-block a { color: var(--accent); text-decoration: none; font-weight: 500; }
+.contact-block a:hover { text-decoration: underline; }
+
+.doc-footer { margin-top: 4rem; padding-top: 1.5rem; border-top: 1px solid var(--border); font-size: .8125rem; color: var(--text-muted); display: flex; justify-content: space-between; flex-wrap: wrap; gap: .5rem; }
+.doc-footer a { color: var(--accent); text-decoration: none; }
+.doc-footer a:hover { text-decoration: underline; }
+
+@media (max-width: 768px) {
+  .page-wrap { grid-template-columns: 1fr; gap: 0; padding: 1.5rem 1.25rem; }
+  .toc { position: static; max-height: none; overflow: visible; margin-bottom: 2rem; }
+  .mobile-toc-toggle { display: flex; }
+  .toc-mobile-body { display: none; }
+  .toc-mobile-body.open { display: block; }
+  .toc-list { margin-top: .5rem; }
+  .doc-title { font-size: 1.75rem; }
+  .site-header { padding: 0 1.25rem; }
+  .header-date { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="#" class="logo" aria-label="DogGO">
+    <svg class="logo-paw" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <ellipse cx="5.5" cy="6.5" rx="2" ry="2.5" fill="currentColor" opacity=".7"/>
+      <ellipse cx="9" cy="4" rx="1.75" ry="2.25" fill="currentColor" opacity=".85"/>
+      <ellipse cx="13" cy="4" rx="1.75" ry="2.25" fill="currentColor" opacity=".85"/>
+      <ellipse cx="16.5" cy="6.5" rx="2" ry="2.5" fill="currentColor" opacity=".7"/>
+      <path d="M12 9c-3.5 0-6.5 2-6.5 5.5C5.5 18.5 8 21 12 21s6.5-2.5 6.5-6.5C18.5 11 15.5 9 12 9z" fill="currentColor"/>
+    </svg>
+    <span class="logo-name">DogGO</span>
+  </a>
+  <div class="header-sep" aria-hidden="true"></div>
+  <span class="header-doc">Data Deletion</span>
+  <span class="header-date">Last updated: September 1, 2026</span>
+</header>
+
+<div class="page-wrap">
+  <aside class="toc" aria-label="Table of contents">
+    <button class="mobile-toc-toggle" aria-expanded="false" onclick="toggleToc(this)">
+      Table of Contents
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <div class="toc-mobile-body" id="toc-body">
+      <div class="toc-label">Contents</div>
+      <ol class="toc-list" id="toc-list">
+        <li class="toc-item"><a class="toc-link" href="#overview">Overview</a></li>
+        <li class="toc-item"><a class="toc-link" href="#how-to-request">How to Request Deletion</a></li>
+        <li class="toc-item"><a class="toc-link" href="#what-gets-deleted">What Gets Deleted</a></li>
+        <li class="toc-item"><a class="toc-link" href="#timeline">Timeline</a></li>
+        <li class="toc-item"><a class="toc-link" href="#partial-deletion">Partial Deletion</a></li>
+        <li class="toc-item"><a class="toc-link" href="#contact">Contact</a></li>
+      </ol>
+    </div>
+  </aside>
+
+  <main class="doc-content" id="main-content">
+    <h1 class="doc-title">Data Deletion Policy</h1>
+    <div class="doc-meta">
+      <span><strong>App:</strong> DogGO</span>
+      <span><strong>Developer:</strong> Anima Ignea</span>
+      <span><strong>Effective:</strong> September 1, 2026</span>
+      <span><strong>Last updated:</strong> September 1, 2026</span>
+    </div>
+
+    <div class="intro-box">
+      You have the right to delete your DogGO account and all associated personal data at any time. This page explains exactly how to do it, what gets deleted, and how long it takes.
+    </div>
+
+    <!-- 1. Overview -->
+    <section class="doc-section" id="overview">
+      <h2 class="section-heading">1. Overview</h2>
+      <p>Anima Ignea respects your right to control your personal data. If you decide to stop using DogGO, you can request that we delete your account and all personal information we hold about you, including your dog profiles, walk history, and all other data described in our <a href="privacy-policy.html" style="color:var(--accent)">Privacy Policy</a>.</p>
+      <p>Account deletion is permanent and irreversible. Once your account is deleted, we cannot recover your data, restore your Biscuits or XP balance, or reconnect you to your previous walk history.</p>
+    </section>
+
+    <!-- 2. How to Request -->
+    <section class="doc-section" id="how-to-request">
+      <h2 class="section-heading">2. How to Request Deletion</h2>
+      <p>You can request deletion of your account and data through any of the following methods:</p>
+
+      <p class="subsection-title" style="margin-top:1.25rem">Option A — Delete directly in the App (fastest)</p>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <div class="step-title">Open your profile</div>
+            <div class="step-desc">Tap the account button in the top-left corner of the map screen to open your profile overlay.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <div class="step-title">Go to Settings</div>
+            <div class="step-desc">Scroll to the bottom of your profile and tap <code>Settings</code>.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <div class="step-title">Select "Delete Account"</div>
+            <div class="step-desc">Tap <code>Delete Account</code>. You will be asked to confirm. Once confirmed, your account deletion is queued immediately.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <div class="step-title">Confirmation</div>
+            <div class="step-desc">You will receive a confirmation email at your registered address. Data deletion completes within 30 days.</div>
+          </div>
+        </div>
+      </div>
+
+      <p class="subsection-title" style="margin-top:1.5rem">Option B — Request by email</p>
+      <p>If you cannot access the App, send a deletion request to <a href="mailto:doggoapp.management@gmail.com" style="color:var(--accent)">doggoapp.management@gmail.com</a> from the email address associated with your DogGO account. Include the subject line <strong>"Account Deletion Request"</strong> and your registered email address or username.</p>
+      <p>We may ask for additional verification to confirm your identity before processing the request.</p>
+
+      <div class="warn-box">
+        <span class="warn-icon">⚠️</span>
+        <div>
+          <strong>Deletion is permanent.</strong> This action cannot be undone. All your dog profiles, walk history, XP, Biscuits, and purchased items will be permanently removed. Active Premium subscriptions must be cancelled separately through the App Store or Google Play to avoid future charges.
+        </div>
+      </div>
+      <div class="warn-box" style="margin-top:.75rem">
+        <span class="warn-icon">📱</span>
+        <div>
+          <strong>Deleting the app from your device is not the same as deleting your account.</strong> If you uninstall DogGO without completing an account deletion request, your data remains on our servers. You must follow the steps above to permanently remove your account and data.
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. What Gets Deleted -->
+    <section class="doc-section" id="what-gets-deleted">
+      <h2 class="section-heading">3. What Gets Deleted</h2>
+      <p>The following table describes how each category of your data is handled upon deletion:</p>
+      <div class="data-table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Data category</th>
+              <th>Action</th>
+              <th>Timeframe</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Account (email, display name, profile photo)</td>
+              <td><span class="badge badge-del">Deleted</span></td>
+              <td>Within 30 days</td>
+            </tr>
+            <tr>
+              <td>Dog profiles (name, breed, weight, medications)</td>
+              <td><span class="badge badge-del">Deleted</span></td>
+              <td>Within 30 days</td>
+            </tr>
+            <tr>
+              <td>Vaccination records (Premium users)</td>
+              <td><span class="badge badge-del">Deleted</span></td>
+              <td>Within 30 days</td>
+            </tr>
+            <tr>
+              <td>Walk history (routes, distances, timestamps)</td>
+              <td><span class="badge badge-del">Deleted</span></td>
+              <td>Within 30 days</td>
+            </tr>
+            <tr>
+              <td>XP balance and level</td>
+              <td><span class="badge badge-del">Deleted</span></td>
+              <td>Within 30 days</td>
+            </tr>
+            <tr>
+              <td>Biscuits balance and purchased items</td>
+              <td><span class="badge badge-del">Deleted</span></td>
+              <td>Within 30 days</td>
+            </tr>
+            <tr>
+              <td>In-app purchase records (financial auditing)</td>
+              <td><span class="badge badge-anon">Anonymized</span></td>
+              <td>Within 30 days; transaction records retained up to 7 years (legal obligation)</td>
+            </tr>
+            <tr>
+              <td>Encrypted backup copies</td>
+              <td><span class="badge badge-del">Deleted</span></td>
+              <td>Within 90 days of primary deletion</td>
+            </tr>
+            <tr>
+              <td>Aggregate and anonymized analytics</td>
+              <td><span class="badge badge-keep">Retained</span></td>
+              <td>No personal data; cannot identify you</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>After deletion, we may retain anonymized, non-identifiable aggregate statistics (e.g., total walks logged in the app) that cannot be used to identify you.</p>
+    </section>
+
+    <!-- 4. Timeline -->
+    <section class="doc-section" id="timeline">
+      <h2 class="section-heading">4. Timeline</h2>
+      <ul>
+        <li><strong>Immediate:</strong> Your account is deactivated and you are signed out of the App as soon as you confirm deletion.</li>
+        <li><strong>Within 30 days:</strong> All personal data listed above is permanently deleted from our active systems and databases.</li>
+        <li><strong>Within 90 days:</strong> Residual copies in encrypted backups are purged as backup cycles expire.</li>
+        <li><strong>Up to 7 years:</strong> Anonymized financial transaction records may be retained as required by Chilean tax law (Ley 20.780) and applicable accounting regulations. These records contain no personally identifiable information.</li>
+      </ul>
+      <p>If you submitted a deletion request by email, we will acknowledge your request within 5 business days and complete deletion within 30 days of verification.</p>
+    </section>
+
+    <!-- 5. Partial Deletion -->
+    <section class="doc-section" id="partial-deletion">
+      <h2 class="section-heading">5. Partial Deletion and Data Export</h2>
+      <p class="subsection-title">5.1 Deleting specific data without closing your account</p>
+      <p>If you want to remove specific data without deleting your entire account, you can:</p>
+      <ul>
+        <li><strong>Remove a dog profile:</strong> Go to your profile → tap the dog's name → scroll to the bottom → tap "Delete Dog". This permanently removes that dog's profile and all associated data.</li>
+        <li><strong>Remove your profile photo:</strong> Tap your profile photo → select "Remove Photo".</li>
+        <li><strong>Clear walk history:</strong> Contact us at <a href="mailto:doggoapp.management@gmail.com" style="color:var(--accent)">doggoapp.management@gmail.com</a> to request deletion of specific walks.</li>
+      </ul>
+
+      <p class="subsection-title" style="margin-top:1.5rem">5.2 Exporting your data before deletion</p>
+      <p>You have the right to receive a copy of your personal data before deletion. To request a data export, email <a href="mailto:doggoapp.management@gmail.com" style="color:var(--accent)">doggoapp.management@gmail.com</a> with the subject line <strong>"Data Export Request"</strong>. We will provide your data in a structured, machine-readable format (JSON) within 30 days.</p>
+    </section>
+
+    <!-- 6. Contact -->
+    <section class="doc-section" id="contact">
+      <h2 class="section-heading">6. Contact</h2>
+      <p>For deletion requests, data export requests, or questions about how we handle your data:</p>
+      <div class="contact-block">
+        <p><strong>Anima Ignea — DogGO Support</strong></p>
+        <p>Email: <a href="mailto:doggoapp.management@gmail.com">doggoapp.management@gmail.com</a></p>
+        <p>Subject line for deletions: <strong>"Account Deletion Request"</strong></p>
+        <p>Country: Chile</p>
+      </div>
+      <p style="margin-top:1rem">We aim to respond to all deletion requests within 5 business days and complete deletion within 30 days.</p>
+    </section>
+
+    <footer class="doc-footer">
+      <span>© 2026 Anima Ignea. All rights reserved.</span>
+      <span>
+        <a href="privacy-policy.html">Privacy Policy</a> ·
+        <a href="terms.html">Terms of Service</a>
+      </span>
+    </footer>
+  </main>
+</div>
+
+<script>
+function toggleToc(btn) {
+  const body = document.getElementById('toc-body');
+  const isOpen = btn.classList.toggle('open');
+  btn.setAttribute('aria-expanded', isOpen);
+  body.classList.toggle('open', isOpen);
+}
+const sections = document.querySelectorAll('.doc-section[id]');
+const tocItems = document.querySelectorAll('.toc-item');
+function updateToc() {
+  let current = '';
+  sections.forEach(s => { if (window.scrollY + 100 >= s.offsetTop) current = s.id; });
+  tocItems.forEach(item => {
+    const link = item.querySelector('.toc-link');
+    item.classList.toggle('active', link && link.getAttribute('href') === '#' + current);
+  });
+}
+window.addEventListener('scroll', updateToc, { passive: true });
+updateToc();
+</script>
+</body>
+</html>

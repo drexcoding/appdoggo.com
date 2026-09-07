@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DogGO Terms of Service</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap">
+<style>
+:root {
+  --bg:          #F4F7FD;
+  --surface:     #FFFFFF;
+  --text:        #0B1730;
+  --text-muted:  #5A6B8C;
+  --border:      #D8E1F2;
+  --accent:      #1D4ED8;
+  --accent-dim:  #E8EDF8;
+  --rail-active: #1D4ED8;
+  --rail-dot:    #A8BDEF;
+  --shadow:      0 1px 3px rgba(13,27,62,.07), 0 4px 16px rgba(13,27,62,.05);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg:          #090E1C;
+    --surface:     #101828;
+    --text:        #E8EDF8;
+    --text-muted:  #8A9BBF;
+    --border:      #1A2540;
+    --accent:      #5B82F0;
+    --accent-dim:  #111F42;
+    --rail-active: #5B82F0;
+    --rail-dot:    #2A3D6B;
+    --shadow:      0 1px 3px rgba(0,0,0,.3), 0 4px 16px rgba(0,0,0,.25);
+  }
+}
+:root[data-theme="dark"] {
+    --bg:          #090E1C;
+    --surface:     #101828;
+    --text:        #E8EDF8;
+    --text-muted:  #8A9BBF;
+    --border:      #1A2540;
+    --accent:      #5B82F0;
+    --accent-dim:  #111F42;
+    --rail-active: #5B82F0;
+    --rail-dot:    #2A3D6B;
+    --shadow:      0 1px 3px rgba(0,0,0,.3), 0 4px 16px rgba(0,0,0,.25);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  padding: 0 2rem;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+.logo-paw { width: 28px; height: 28px; color: var(--accent); }
+.logo-name {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 1.125rem;
+  color: var(--text);
+  letter-spacing: -.01em;
+}
+.header-sep { width: 1px; height: 20px; background: var(--border); flex-shrink: 0; }
+.header-doc { font-size: .8125rem; font-weight: 500; color: var(--text-muted); letter-spacing: .02em; text-transform: uppercase; }
+.header-date { margin-left: auto; font-size: .75rem; color: var(--text-muted); }
+
+.page-wrap {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 3.5rem;
+  align-items: start;
+}
+.toc {
+  position: sticky;
+  top: 80px;
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
+}
+.toc-label {
+  font-family: 'Syne', sans-serif;
+  font-size: .6875rem;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+}
+.toc-list { list-style: none; border-left: 2px solid var(--border); padding-left: 0; }
+.toc-item { position: relative; }
+.toc-item::before {
+  content: '';
+  position: absolute;
+  left: -5px; top: 50%;
+  transform: translateY(-50%);
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--rail-dot);
+  transition: background .2s;
+}
+.toc-item.active::before { background: var(--rail-active); }
+.toc-link { display: block; padding: .375rem .75rem; font-size: .8125rem; color: var(--text-muted); text-decoration: none; transition: color .15s; line-height: 1.4; }
+.toc-link:hover, .toc-item.active .toc-link { color: var(--accent); }
+@keyframes slideIn { from { opacity: 0; transform: translateX(-6px); } to { opacity: 1; transform: translateX(0); } }
+.toc-item { animation: slideIn .3s ease both; }
+.toc-item:nth-child(1) { animation-delay: .04s }
+.toc-item:nth-child(2) { animation-delay: .07s }
+.toc-item:nth-child(3) { animation-delay: .10s }
+.toc-item:nth-child(4) { animation-delay: .13s }
+.toc-item:nth-child(5) { animation-delay: .16s }
+.toc-item:nth-child(6) { animation-delay: .19s }
+.toc-item:nth-child(7) { animation-delay: .22s }
+.toc-item:nth-child(8) { animation-delay: .25s }
+.toc-item:nth-child(9) { animation-delay: .28s }
+.toc-item:nth-child(10) { animation-delay: .31s }
+.toc-item:nth-child(11) { animation-delay: .34s }
+.toc-item:nth-child(12) { animation-delay: .37s }
+.toc-item:nth-child(13) { animation-delay: .40s }
+.toc-item:nth-child(14) { animation-delay: .43s }
+.toc-item:nth-child(15) { animation-delay: .46s }
+.toc-item:nth-child(16) { animation-delay: .49s }
+.toc-item:nth-child(17) { animation-delay: .52s }
+.toc-item:nth-child(18) { animation-delay: .55s }
+.toc-item:nth-child(19) { animation-delay: .58s }
+.toc-item:nth-child(20) { animation-delay: .61s }
+.toc-item:nth-child(21) { animation-delay: .64s }
+
+.mobile-toc-toggle {
+  display: none;
+  width: 100%;
+  padding: .75rem 1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: .875rem;
+  font-weight: 500;
+  color: var(--text);
+  cursor: pointer;
+  text-align: left;
+  justify-content: space-between;
+  align-items: center;
+  gap: .5rem;
+  margin-bottom: 1rem;
+}
+.mobile-toc-toggle svg { transition: transform .2s; }
+.mobile-toc-toggle.open svg { transform: rotate(180deg); }
+.toc-mobile-body { display: block; }
+
+.doc-content { min-width: 0; }
+.doc-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.15;
+  letter-spacing: -.025em;
+  text-wrap: balance;
+  margin-bottom: .75rem;
+}
+.doc-meta { display: flex; gap: 1.25rem; font-size: .8125rem; color: var(--text-muted); margin-bottom: 2.5rem; padding-bottom: 2.5rem; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+.doc-meta strong { color: var(--text); font-weight: 500; }
+
+.intro-box {
+  background: var(--accent-dim);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 6px 6px 0;
+  padding: 1rem 1.25rem;
+  font-size: .9375rem;
+  color: var(--text);
+  margin-bottom: 3rem;
+  line-height: 1.65;
+}
+
+.doc-section { margin-bottom: 3rem; scroll-margin-top: 80px; }
+.section-heading {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.1875rem;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: -.01em;
+  text-wrap: balance;
+  margin-bottom: 1rem;
+  padding-bottom: .625rem;
+  border-bottom: 1px solid var(--border);
+}
+.doc-section p { font-size: .9375rem; color: var(--text); margin-bottom: .875rem; max-width: 68ch; }
+.doc-section ul, .doc-section ol { padding-left: 1.5rem; margin-bottom: .875rem; }
+.doc-section li { font-size: .9375rem; color: var(--text); margin-bottom: .375rem; max-width: 66ch; }
+.doc-section li::marker { color: var(--accent); }
+.subsection-title { font-weight: 600; font-size: .9375rem; color: var(--text); margin-top: 1.5rem; margin-bottom: .5rem; }
+
+.highlight-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.125rem 1.25rem;
+  margin: 1rem 0 1.25rem;
+  font-size: .9375rem;
+}
+.highlight-box strong { color: var(--accent); }
+
+.contact-block { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; box-shadow: var(--shadow); margin-top: 1rem; }
+.contact-block p { margin-bottom: .5rem; }
+.contact-block a { color: var(--accent); text-decoration: none; font-weight: 500; }
+.contact-block a:hover { text-decoration: underline; }
+
+.doc-footer { margin-top: 4rem; padding-top: 1.5rem; border-top: 1px solid var(--border); font-size: .8125rem; color: var(--text-muted); display: flex; justify-content: space-between; flex-wrap: wrap; gap: .5rem; }
+.doc-footer a { color: var(--accent); text-decoration: none; }
+.doc-footer a:hover { text-decoration: underline; }
+
+@media (max-width: 768px) {
+  .page-wrap { grid-template-columns: 1fr; gap: 0; padding: 1.5rem 1.25rem; }
+  .toc { position: static; max-height: none; overflow: visible; margin-bottom: 2rem; }
+  .mobile-toc-toggle { display: flex; }
+  .toc-mobile-body { display: none; }
+  .toc-mobile-body.open { display: block; }
+  .toc-list { margin-top: .5rem; }
+  .doc-title { font-size: 1.75rem; }
+  .site-header { padding: 0 1.25rem; }
+  .header-date { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="#" class="logo" aria-label="DogGO">
+    <svg class="logo-paw" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <ellipse cx="5.5" cy="6.5" rx="2" ry="2.5" fill="currentColor" opacity=".7"/>
+      <ellipse cx="9" cy="4" rx="1.75" ry="2.25" fill="currentColor" opacity=".85"/>
+      <ellipse cx="13" cy="4" rx="1.75" ry="2.25" fill="currentColor" opacity=".85"/>
+      <ellipse cx="16.5" cy="6.5" rx="2" ry="2.5" fill="currentColor" opacity=".7"/>
+      <path d="M12 9c-3.5 0-6.5 2-6.5 5.5C5.5 18.5 8 21 12 21s6.5-2.5 6.5-6.5C18.5 11 15.5 9 12 9z" fill="currentColor"/>
+    </svg>
+    <span class="logo-name">DogGO</span>
+  </a>
+  <div class="header-sep" aria-hidden="true"></div>
+  <span class="header-doc">Terms of Service</span>
+  <span class="header-date">Last updated: September 1, 2026</span>
+</header>
+
+<div class="page-wrap">
+  <aside class="toc" aria-label="Table of contents">
+    <button class="mobile-toc-toggle" aria-expanded="false" onclick="toggleToc(this)">
+      Table of Contents
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <div class="toc-mobile-body" id="toc-body">
+      <div class="toc-label">Contents</div>
+      <ol class="toc-list" id="toc-list">
+        <li class="toc-item"><a class="toc-link" href="#acceptance">Acceptance of Terms</a></li>
+        <li class="toc-item"><a class="toc-link" href="#eligibility">Eligibility</a></li>
+        <li class="toc-item"><a class="toc-link" href="#accounts">Your Account</a></li>
+        <li class="toc-item"><a class="toc-link" href="#license">License to Use DogGO</a></li>
+        <li class="toc-item"><a class="toc-link" href="#conduct">Acceptable Use</a></li>
+        <li class="toc-item"><a class="toc-link" href="#real-world">Real-World Safety</a></li>
+        <li class="toc-item"><a class="toc-link" href="#purchases">In-App Purchases</a></li>
+        <li class="toc-item"><a class="toc-link" href="#premium">Premium Plan</a></li>
+        <li class="toc-item"><a class="toc-link" href="#virtual-currency">Virtual Currency</a></li>
+        <li class="toc-item"><a class="toc-link" href="#ip">Intellectual Property</a></li>
+        <li class="toc-item"><a class="toc-link" href="#user-content">User Content</a></li>
+        <li class="toc-item"><a class="toc-link" href="#disclaimer">Disclaimer of Warranties</a></li>
+        <li class="toc-item"><a class="toc-link" href="#indemnification">Indemnification</a></li>
+        <li class="toc-item"><a class="toc-link" href="#liability">Limitation of Liability</a></li>
+        <li class="toc-item"><a class="toc-link" href="#force-majeure">Force Majeure</a></li>
+        <li class="toc-item"><a class="toc-link" href="#termination">Termination</a></li>
+        <li class="toc-item"><a class="toc-link" href="#app-stores">App Store Terms</a></li>
+        <li class="toc-item"><a class="toc-link" href="#dmca">Copyright &amp; DMCA</a></li>
+        <li class="toc-item"><a class="toc-link" href="#export-controls">Export Controls</a></li>
+        <li class="toc-item"><a class="toc-link" href="#governing-law">Governing Law</a></li>
+        <li class="toc-item"><a class="toc-link" href="#general">General Provisions</a></li>
+        <li class="toc-item"><a class="toc-link" href="#changes">Changes to Terms</a></li>
+        <li class="toc-item"><a class="toc-link" href="#contact">Contact</a></li>
+      </ol>
+    </div>
+  </aside>
+
+  <main class="doc-content" id="main-content">
+    <h1 class="doc-title">Terms of Service</h1>
+    <div class="doc-meta">
+      <span><strong>App:</strong> DogGO</span>
+      <span><strong>Developer:</strong> Anima Ignea</span>
+      <span><strong>Effective:</strong> September 1, 2026</span>
+      <span><strong>Last updated:</strong> September 1, 2026</span>
+    </div>
+
+    <div class="intro-box">
+      Please read these Terms of Service carefully before using DogGO. By creating an account or using the App, you agree to be bound by these Terms. If you do not agree, do not use DogGO.
+    </div>
+
+    <!-- 1. Acceptance -->
+    <section class="doc-section" id="acceptance">
+      <h2 class="section-heading">1. Acceptance of Terms</h2>
+      <p>These Terms of Service ("Terms") constitute a legally binding agreement between you and Anima Ignea ("Anima Ignea", "we", "us", "our") governing your access to and use of the DogGO mobile application and related services (collectively, the "App" or "Service").</p>
+      <p>By downloading, installing, creating an account, or otherwise accessing DogGO, you confirm that you have read, understood, and agree to these Terms, as well as our <a href="privacy-policy.html" style="color:var(--accent)">Privacy Policy</a>, which is incorporated into these Terms by reference.</p>
+      <p>These Terms also serve as the End User License Agreement (EULA) for the DogGO application as required by Apple's App Store and Google Play Store guidelines.</p>
+    </section>
+
+    <!-- 2. Eligibility -->
+    <section class="doc-section" id="eligibility">
+      <h2 class="section-heading">2. Eligibility</h2>
+      <p>To use DogGO, you must:</p>
+      <ul>
+        <li>Be at least 13 years of age. If you are between 13 and 17 years old, you must have parental or guardian consent to use the App.</li>
+        <li>Have the legal capacity to enter into a binding agreement in your jurisdiction.</li>
+        <li>Not be prohibited from using the App under the laws of your country or any applicable jurisdiction.</li>
+      </ul>
+      <p>DogGO is not intended for children under the age of 13. If we learn that a user is under 13, we will terminate their account and delete their data.</p>
+    </section>
+
+    <!-- 3. Accounts -->
+    <section class="doc-section" id="accounts">
+      <h2 class="section-heading">3. Your Account</h2>
+      <p class="subsection-title">3.1 Account creation</p>
+      <p>You may create an account by signing in with Google, Facebook, or Apple. You may also use DogGO as a guest with limited functionality. Guest data is stored temporarily and may be lost if you do not convert your guest session to a full account.</p>
+
+      <p class="subsection-title">3.2 Account security</p>
+      <p>You are responsible for maintaining the security of your account and credentials. You agree to:</p>
+      <ul>
+        <li>Provide accurate and truthful information when creating your profile.</li>
+        <li>Notify us immediately at <a href="mailto:doggoapp.management@gmail.com" style="color:var(--accent)">doggoapp.management@gmail.com</a> if you suspect unauthorized access to your account.</li>
+        <li>Not share your account with others or allow others to use your account.</li>
+      </ul>
+      <p>We are not liable for any loss resulting from unauthorized use of your account where you have failed to take reasonable security precautions.</p>
+
+      <p class="subsection-title">3.3 One account per person</p>
+      <p>Each user may maintain only one active account. Creating multiple accounts to circumvent restrictions or earn duplicate rewards is prohibited and may result in termination of all associated accounts.</p>
+    </section>
+
+    <!-- 4. License -->
+    <section class="doc-section" id="license">
+      <h2 class="section-heading">4. License to Use DogGO</h2>
+      <p>Subject to your compliance with these Terms, Anima Ignea grants you a limited, non-exclusive, non-transferable, revocable license to:</p>
+      <ul>
+        <li>Download and install the App on mobile devices you own or control.</li>
+        <li>Access and use the App for your personal, non-commercial purposes.</li>
+      </ul>
+      <p>This license does not include the right to:</p>
+      <ul>
+        <li>Sublicense, sell, resell, transfer, assign, or commercially exploit the App.</li>
+        <li>Modify, adapt, translate, reverse engineer, decompile, or disassemble any part of the App.</li>
+        <li>Create derivative works based on the App or its content.</li>
+        <li>Remove or alter any proprietary notices or labels in the App.</li>
+        <li>Use the App for any commercial purpose or for the benefit of any third party.</li>
+      </ul>
+      <p>This license terminates automatically if you violate any of these Terms. Upon termination, you must stop using the App and delete all copies.</p>
+    </section>
+
+    <!-- 5. Conduct -->
+    <section class="doc-section" id="conduct">
+      <h2 class="section-heading">5. Acceptable Use</h2>
+      <p>You agree to use DogGO only for lawful purposes and in a manner that does not infringe the rights of others. You must not:</p>
+      <ul>
+        <li><strong>Cheat or spoof:</strong> Use GPS spoofing, emulators, bots, scripts, or any means to simulate walks you did not take, earn rewards fraudulently, or manipulate your XP or Biscuits balance.</li>
+        <li><strong>Tamper with the service:</strong> Attempt to access our servers or databases without authorization, interfere with the App's functionality, or exploit bugs or vulnerabilities.</li>
+        <li><strong>Impersonate others:</strong> Use another person's account or misrepresent your identity.</li>
+        <li><strong>Upload harmful content:</strong> Upload profile pictures or dog photos that are unlawful, offensive, or violate third-party rights.</li>
+        <li><strong>Circumvent restrictions:</strong> Attempt to bypass Premium features, in-app purchase requirements, or any other feature gates.</li>
+        <li><strong>Violate laws:</strong> Use the App in violation of any applicable local, national, or international laws or regulations.</li>
+      </ul>
+      <p>Violation of these rules may result in immediate suspension or termination of your account and forfeiture of any virtual currency or items associated with it.</p>
+    </section>
+
+    <!-- 6. Real-World Safety -->
+    <section class="doc-section" id="real-world">
+      <h2 class="section-heading">6. Real-World Safety and Conduct</h2>
+      <div class="highlight-box">
+        <strong>DogGO is a location-based app used in the physical world. You are solely responsible for your safety, your dog's safety, and the safety of others while using the App. Anima Ignea is not responsible for any physical harm, injury, death, property damage, legal violation, or any other consequence arising from your real-world actions while using DogGO.</strong>
+      </div>
+
+      <p class="subsection-title">6.1 Your responsibility while walking</p>
+      <p>By using DogGO, you acknowledge and agree that:</p>
+      <ul>
+        <li><strong>Stay aware of your surroundings at all times.</strong> Do not use the App in a way that distracts you from traffic, obstacles, other people, or any physical hazard.</li>
+        <li><strong>Never trespass.</strong> You must not enter private property, restricted areas, government facilities, construction sites, or any location where you do not have explicit permission to be — regardless of what the map displays or where a walk route may lead.</li>
+        <li><strong>Avoid dangerous locations.</strong> Do not enter areas that are unsafe, environmentally sensitive, legally restricted, or physically hazardous. DogGO's map data does not indicate whether a location is safe, accessible, or legally open to the public.</li>
+        <li><strong>Do not use the App while driving or cycling in traffic.</strong> DogGO is intended for use on foot during dog walks. Using the App while operating a vehicle, bicycle, or any moving vehicle is prohibited and solely your responsibility.</li>
+        <li><strong>Obey all local laws and regulations.</strong> You are responsible for complying with all applicable laws, including leash laws, park regulations, noise ordinances, and any other rules that govern the areas where you walk.</li>
+        <li><strong>Walk timing and conditions.</strong> You assume all risk associated with walking in adverse weather, at night, in unfamiliar areas, or in any other condition that may increase physical risk to you or your dog.</li>
+      </ul>
+
+      <p class="subsection-title">6.2 Your dog's behavior</p>
+      <p>You are solely and entirely responsible for your dog's conduct during all walks tracked with DogGO. Anima Ignea bears no liability whatsoever for:</p>
+      <ul>
+        <li>Dog bites, attacks, or injuries caused by your dog to any person or animal.</li>
+        <li>Property damage caused by your dog.</li>
+        <li>Incidents or accidents involving your dog during or after a DogGO-tracked walk.</li>
+        <li>Any legal, civil, or criminal liability arising from your dog's behavior.</li>
+      </ul>
+      <p>By using DogGO to track your walks, you confirm that you are a responsible dog owner and that your dog is under your control at all times.</p>
+
+      <p class="subsection-title">6.3 GPS accuracy</p>
+      <p>DogGO relies on your device's GPS, which may be inaccurate, delayed, or unavailable depending on your device, surroundings, and network conditions. <strong>GPS data from DogGO must never be used for navigation, emergency response, or any purpose where accuracy is safety-critical.</strong> Anima Ignea makes no warranty regarding the accuracy, completeness, or reliability of GPS data.</p>
+
+      <p class="subsection-title">6.4 Assumption of risk</p>
+      <p>By using DogGO, you voluntarily assume all risks associated with physical outdoor activity, including but not limited to trips, falls, animal encounters, adverse weather, and traffic. This assumption of risk is a material condition of your right to use the App.</p>
+    </section>
+
+    <!-- 7. In-App Purchases -->
+    <section class="doc-section" id="purchases">
+      <h2 class="section-heading">7. In-App Purchases</h2>
+      <p class="subsection-title">6.1 Payment and billing</p>
+      <p>DogGO offers optional in-app purchases, including Biscuits (virtual currency), cosmetic items, and XP packages. All purchases are processed through the Apple App Store or Google Play Store. By making a purchase, you agree to the payment terms of the applicable platform.</p>
+
+      <p class="subsection-title">6.2 No refunds</p>
+      <div class="highlight-box">
+        <strong>All in-app purchases are final and non-refundable</strong>, except as required by applicable law or by the refund policy of the App Store / Google Play where you made the purchase. Refund requests must be submitted directly to Apple or Google, not to Anima Ignea.
+      </div>
+
+      <p class="subsection-title">6.3 Price changes</p>
+      <p>We reserve the right to change the prices of in-app purchases at any time. Price changes take effect upon the next purchase and do not apply retroactively to completed transactions.</p>
+
+      <p class="subsection-title">6.4 Taxes</p>
+      <p>Prices displayed in the App may not include applicable taxes. Taxes are calculated and collected by Apple or Google at the time of purchase, as applicable.</p>
+    </section>
+
+    <!-- 7. Premium Plan -->
+    <section class="doc-section" id="premium">
+      <h2 class="section-heading">8. Premium Plan</h2>
+      <p>DogGO offers a Premium subscription plan ("Premium") that unlocks additional features, including but not limited to vaccine records management and premium trail colors.</p>
+      <ul>
+        <li><strong>Subscription terms:</strong> Premium is offered on a recurring subscription basis. Billing periods, pricing, and renewal terms are displayed in the App at the time of subscription.</li>
+        <li><strong>Cancellation:</strong> You may cancel your Premium subscription at any time through your Apple or Google account settings. Cancellation takes effect at the end of the current billing period. You retain Premium access until the period ends.</li>
+        <li><strong>Feature availability:</strong> We may add, modify, or remove Premium features at any time. Material reductions to Premium features will be communicated in advance.</li>
+        <li><strong>Free plan:</strong> Users who do not subscribe to Premium retain access to all core features of DogGO at no charge.</li>
+      </ul>
+    </section>
+
+    <!-- 8. Virtual Currency -->
+    <section class="doc-section" id="virtual-currency">
+      <h2 class="section-heading">9. Virtual Currency and Items</h2>
+      <p>DogGO includes virtual currencies (Biscuits 🦴) and experience points (XP) that exist solely within the App. The following rules apply:</p>
+      <ul>
+        <li>Biscuits and XP have no monetary value and cannot be exchanged for real money or transferred to other users.</li>
+        <li>Virtual items and currencies purchased or earned in DogGO are licensed to you, not sold outright. You do not own them.</li>
+        <li>We may adjust, modify, or remove virtual currency balances, items, or XP in cases of abuse, error, or App updates, with or without notice.</li>
+        <li>Virtual currency and items associated with an account are forfeited upon account termination, whether by your choice or ours.</li>
+        <li>Selling, trading, or attempting to transfer virtual items outside of the App is prohibited.</li>
+      </ul>
+    </section>
+
+    <!-- 9. IP -->
+    <section class="doc-section" id="ip">
+      <h2 class="section-heading">10. Intellectual Property</h2>
+      <p>DogGO and all its content — including but not limited to the App design, graphics, user interface, software, code, trademarks, logos, the DogGO name, and all related materials — are the exclusive property of Anima Ignea and are protected by copyright, trademark, and other intellectual property laws.</p>
+      <p>Nothing in these Terms grants you any right to use our trademarks, logos, or brand features without our prior written consent.</p>
+      <p>All rights not expressly granted in these Terms are reserved by Anima Ignea.</p>
+    </section>
+
+    <!-- 10. User Content -->
+    <section class="doc-section" id="user-content">
+      <h2 class="section-heading">11. User Content</h2>
+      <p>You may upload content to DogGO, such as profile photos and dog photos ("User Content"). By uploading User Content, you:</p>
+      <ul>
+        <li>Represent that you own or have the right to use the content.</li>
+        <li>Grant Anima Ignea a non-exclusive, worldwide, royalty-free license to store, display, and use the content solely to provide and operate the App.</li>
+        <li>Remain solely responsible for your User Content and any consequences of uploading it.</li>
+      </ul>
+      <p>We reserve the right to remove any User Content that violates these Terms or applicable law.</p>
+    </section>
+
+    <!-- 11. Disclaimer -->
+    <section class="doc-section" id="disclaimer">
+      <h2 class="section-heading">12. Disclaimer of Warranties</h2>
+      <div class="highlight-box">
+        <p><strong>DogGO is provided "as is" and "as available" without warranties of any kind.</strong> To the fullest extent permitted by law, Anima Ignea disclaims all warranties, express or implied, including but not limited to warranties of merchantability, fitness for a particular purpose, accuracy, and non-infringement.</p>
+      </div>
+      <p>We do not warrant that:</p>
+      <ul>
+        <li>The App will be uninterrupted, error-free, or secure at all times.</li>
+        <li>Walk tracking data, GPS routes, or distance calculations will be perfectly accurate.</li>
+        <li>The App will be available in all regions or on all devices.</li>
+        <li>Any defects or errors will be corrected.</li>
+      </ul>
+      <p>The App is intended for recreational use only. GPS data should not be relied upon for navigation or emergency purposes. DogGO does not provide veterinary or medical advice for your pets.</p>
+    </section>
+
+    <!-- 13. Indemnification -->
+    <section class="doc-section" id="indemnification">
+      <h2 class="section-heading">13. Indemnification</h2>
+      <p>To the fullest extent permitted by applicable law, you agree to defend, indemnify, and hold harmless Anima Ignea and its officers, directors, employees, contractors, and agents from and against any and all claims, damages, losses, liabilities, costs, and expenses (including reasonable attorneys' fees) arising out of or relating to:</p>
+      <ul>
+        <li>Your use of DogGO or any walk you track using the App.</li>
+        <li>Your physical actions, conduct, or presence in any location while using the App, including trespassing, accidents, or injuries.</li>
+        <li>Your dog's behavior, including bites, property damage, or injuries caused by your dog.</li>
+        <li>Your violation of these Terms or any applicable law or regulation.</li>
+        <li>Any User Content you upload to the App, including any infringement of third-party intellectual property rights.</li>
+        <li>Any misrepresentation you make in connection with your use of DogGO.</li>
+      </ul>
+      <p>Anima Ignea reserves the right to assume the exclusive defense and control of any matter subject to indemnification by you, at your expense, and you agree to cooperate with our defense of such claims.</p>
+    </section>
+
+    <!-- 14. Liability -->
+    <section class="doc-section" id="liability">
+      <h2 class="section-heading">14. Limitation of Liability</h2>
+      <p>To the maximum extent permitted by applicable law:</p>
+      <ul>
+        <li>Anima Ignea and its officers, directors, employees, and agents shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising out of or related to your use of DogGO.</li>
+        <li>Our total aggregate liability to you for any claims arising under these Terms shall not exceed the amount you paid to us in the 12 months immediately preceding the claim, or USD $10, whichever is greater.</li>
+        <li>Some jurisdictions do not allow limitation of liability for certain damages; in such cases, our liability is limited to the greatest extent permitted by law.</li>
+      </ul>
+      <p>You acknowledge that the limitations in this section are an essential basis of the bargain between you and Anima Ignea, and that Anima Ignea would not provide the App without these limitations.</p>
+    </section>
+
+    <!-- 15. Force Majeure -->
+    <section class="doc-section" id="force-majeure">
+      <h2 class="section-heading">15. Force Majeure and Service Availability</h2>
+      <p>Anima Ignea does not guarantee continuous, uninterrupted, or error-free availability of DogGO. We may modify, suspend, or discontinue the App or any feature at any time, with or without notice, for any reason including but not limited to:</p>
+      <ul>
+        <li>Scheduled or emergency maintenance.</li>
+        <li>Events beyond our reasonable control, including natural disasters, government actions, internet outages, power failures, third-party service failures (such as Supabase, Mapbox, or Apple/Google infrastructure), cyberattacks, or other force majeure events.</li>
+        <li>Legal or regulatory requirements.</li>
+        <li>Business decisions, including the permanent discontinuation of the App.</li>
+      </ul>
+      <p>Anima Ignea shall not be liable to you for any damages, loss of data, loss of virtual currency or items, or any other harm resulting from service interruptions, modifications, or discontinuation. In the event of permanent discontinuation of the App, we will make reasonable efforts to notify users in advance.</p>
+    </section>
+
+    <!-- 16. Termination -->
+    <section class="doc-section" id="termination">
+      <h2 class="section-heading">16. Termination</h2>
+      <p class="subsection-title">16.1 Your right to terminate</p>
+      <p>You may stop using DogGO and delete your account at any time. To delete your account and all associated data, see our <a href="data-deletion.html" style="color:var(--accent)">Data Deletion Policy</a>.</p>
+
+      <p class="subsection-title">16.2 Our right to terminate</p>
+      <p>We may suspend or terminate your account at any time, with or without notice, if we have reason to believe you have violated these Terms, engaged in fraudulent activity, or your use of the App poses a risk to other users or our systems.</p>
+
+      <p class="subsection-title">16.3 Effect of termination</p>
+      <p>Upon termination: your license to use the App ends immediately; any Biscuits, XP, and virtual items are forfeited; and we will delete your personal data as described in our Privacy Policy, subject to legal retention requirements.</p>
+    </section>
+
+    <!-- 17. App Stores -->
+    <section class="doc-section" id="app-stores">
+      <h2 class="section-heading">17. App Store Terms</h2>
+      <p>DogGO is distributed through the Apple App Store and the Google Play Store. The following applies depending on the platform you use:</p>
+
+      <p class="subsection-title">17.1 Apple App Store</p>
+      <p>If you downloaded DogGO from the Apple App Store, the following additional terms apply as required by Apple, Inc. ("Apple"):</p>
+      <ul>
+        <li><strong>These Terms are between you and Anima Ignea only</strong>, not with Apple. Apple is not responsible for DogGO or its content.</li>
+        <li>Apple has no obligation to provide maintenance or support for DogGO.</li>
+        <li>In the event DogGO fails to conform to any applicable warranty, you may notify Apple and Apple will refund the purchase price (if any) as permitted by its then-current refund policy. To the maximum extent permitted by law, Apple has no other warranty obligation with respect to DogGO.</li>
+        <li>Apple is not responsible for addressing any claims by you or any third party relating to DogGO, including product liability claims, consumer protection claims, or intellectual property infringement claims.</li>
+        <li>If a third party claims that DogGO infringes their intellectual property rights, Anima Ignea (not Apple) is solely responsible for the investigation, defense, settlement, and discharge of such a claim.</li>
+        <li><strong>Apple is a third-party beneficiary of these Terms.</strong> Upon your acceptance of these Terms, Apple will have the right (and will be deemed to have accepted the right) to enforce these Terms against you as a third-party beneficiary.</li>
+        <li>You represent and warrant that you are not located in a country subject to a U.S. government embargo or designated as a "terrorist supporting" country, and that you are not listed on any U.S. government list of prohibited or restricted parties.</li>
+      </ul>
+
+      <p class="subsection-title">17.2 Google Play Store</p>
+      <p>If you downloaded DogGO from the Google Play Store, Google Play's Terms of Service also apply to your use of the App. In the event of a conflict between Google Play's Terms and these Terms, these Terms govern with respect to DogGO specifically.</p>
+    </section>
+
+    <!-- 18. DMCA -->
+    <section class="doc-section" id="dmca">
+      <h2 class="section-heading">18. Copyright and DMCA</h2>
+      <p>Anima Ignea respects the intellectual property rights of others and expects users to do the same. If you believe that content available through DogGO infringes your copyright, you may submit a notification pursuant to the Digital Millennium Copyright Act (DMCA), 17 U.S.C. § 512, or equivalent applicable law.</p>
+      <p class="subsection-title">18.1 DMCA Takedown Notice</p>
+      <p>To file a copyright infringement notification, send a written notice to our designated agent at <a href="mailto:doggoapp.management@gmail.com" style="color:var(--accent)">doggoapp.management@gmail.com</a> with the subject line "DMCA Takedown Notice," including all of the following:</p>
+      <ul>
+        <li>An electronic or physical signature of the person authorized to act on behalf of the copyright owner.</li>
+        <li>Identification of the copyrighted work claimed to have been infringed, or, if multiple works are covered by a single notification, a representative list of such works.</li>
+        <li>Identification of the material that is claimed to be infringing or to be the subject of infringing activity, with reasonably sufficient information to permit us to locate the material (e.g., a URL or description).</li>
+        <li>Your contact information, including address, telephone number, and email address.</li>
+        <li>A statement that you have a good faith belief that use of the material in the manner complained of is not authorized by the copyright owner, its agent, or the law.</li>
+        <li>A statement, made under penalty of perjury, that the information in the notification is accurate and that you are the copyright owner or are authorized to act on the copyright owner's behalf.</li>
+      </ul>
+      <p class="subsection-title">18.2 Counter-Notification</p>
+      <p>If you believe that your content was removed or disabled by mistake or misidentification, you may submit a counter-notification to the same address with: your physical or electronic signature; identification of the material and its location before removal; a statement under penalty of perjury that the material was removed by mistake or misidentification; your name, address, telephone number, and consent to federal district court jurisdiction (or equivalent local court if outside the U.S.).</p>
+      <p class="subsection-title">18.3 Repeat Infringers</p>
+      <p>We will terminate the accounts of users who are repeat copyright infringers, consistent with 17 U.S.C. § 512(i).</p>
+    </section>
+
+    <!-- 19. Export Controls -->
+    <section class="doc-section" id="export-controls">
+      <h2 class="section-heading">19. Export Controls and Sanctions Compliance</h2>
+      <p>DogGO is subject to the export control laws and regulations of Chile, the United States, and other applicable jurisdictions. By using the App, you represent and warrant that:</p>
+      <ul>
+        <li>You are not located in, or a national or resident of, any country that is subject to a United States government embargo or that has been designated by the U.S. government as a "terrorist supporting" country, including Cuba, Iran, North Korea, Russia (subject to current sanctions), Syria, or the Crimea region.</li>
+        <li>You are not listed on any U.S. government list of prohibited or restricted parties, including the Treasury Department's Specially Designated Nationals List (SDN List) or the Commerce Department's Denied Persons List.</li>
+        <li>You will not use DogGO for any purpose prohibited by U.S. export laws, including the development, design, manufacture, or production of nuclear, missile, chemical, or biological weapons.</li>
+        <li>You will comply with all applicable import, re-import, export, and re-export control laws and regulations of the countries in which you use the App.</li>
+      </ul>
+      <p>This section satisfies the export compliance requirements of Apple's App Store distribution agreement. By downloading DogGO through the App Store, you confirm the above representations.</p>
+    </section>
+
+    <!-- 20. Governing Law -->
+    <section class="doc-section" id="governing-law">
+      <h2 class="section-heading">20. Governing Law and Disputes</h2>
+      <p>These Terms are governed by and construed in accordance with the laws of the Republic of Chile, without regard to its conflict of law provisions, including Ley N° 19.496 sobre Protección de los Derechos de los Consumidores and Ley N° 21.663.</p>
+      <p>Any disputes arising from or related to these Terms or your use of DogGO shall be subject to the exclusive jurisdiction of the courts of Santiago, Chile, unless you are located in a jurisdiction that requires disputes to be resolved locally.</p>
+      <p><strong>Consumer protection (SERNAC):</strong> If you are a consumer located in Chile, you may file a complaint with the <strong>Servicio Nacional del Consumidor (SERNAC)</strong> in accordance with Ley N° 19.496. Nothing in these Terms limits your rights under applicable Chilean consumer protection law.</p>
+      <p>If you are an EU or UK consumer, you may also have the right to bring claims before the courts in your place of residence and to access online dispute resolution platforms provided by the European Commission (ec.europa.eu/odr).</p>
+      <p><strong>Informal resolution:</strong> Before initiating any formal legal proceeding, we encourage you to contact us at <a href="mailto:doggoapp.management@gmail.com" style="color:var(--accent)">doggoapp.management@gmail.com</a> to resolve the issue informally. We aim to respond within 30 days.</p>
+    </section>
+
+    <!-- 21. General Provisions -->
+    <section class="doc-section" id="general">
+      <h2 class="section-heading">21. General Provisions</h2>
+      <p><strong>Severability.</strong> If any provision of these Terms is found to be invalid, illegal, or unenforceable by a court of competent jurisdiction, that provision will be modified to the minimum extent necessary to make it enforceable, or severed if modification is not possible. The remaining provisions will continue in full force and effect.</p>
+      <p><strong>Entire Agreement.</strong> These Terms, together with our Privacy Policy and Data Deletion Policy, constitute the entire agreement between you and Anima Ignea regarding your use of DogGO and supersede all prior agreements, understandings, and representations.</p>
+      <p><strong>No Waiver.</strong> Our failure to enforce any right or provision of these Terms shall not constitute a waiver of that right or provision. A waiver of any right in one instance does not constitute a waiver of that right in future instances.</p>
+      <p><strong>Assignment.</strong> You may not assign or transfer your rights or obligations under these Terms without our prior written consent. We may assign our rights and obligations under these Terms freely, including in connection with a merger, acquisition, or sale of assets, without notice to you.</p>
+      <p><strong>No Third-Party Beneficiaries.</strong> Except as explicitly stated in these Terms (including Section 17 regarding Apple), these Terms do not create any third-party beneficiary rights.</p>
+      <p><strong>Language.</strong> These Terms are written in English. Any translation provided is for convenience only; the English version governs in the event of any conflict.</p>
+    </section>
+
+    <!-- 22. Changes -->
+    <section class="doc-section" id="changes">
+      <h2 class="section-heading">22. Changes to These Terms</h2>
+      <p>We may update these Terms from time to time. When we make material changes, we will notify you via a notice in the App and update the "Last updated" date above. For significant changes, we may also send an email notification.</p>
+      <p>Your continued use of DogGO after the updated Terms take effect constitutes your acceptance of the new Terms. If you do not agree to the new Terms, you must stop using the App.</p>
+    </section>
+
+    <!-- 23. Contact -->
+    <section class="doc-section" id="contact">
+      <h2 class="section-heading">23. Contact</h2>
+      <p>If you have questions or concerns about these Terms, please contact us:</p>
+      <div class="contact-block">
+        <p><strong>Anima Ignea — DogGO Support</strong></p>
+        <p>Email: <a href="mailto:doggoapp.management@gmail.com">doggoapp.management@gmail.com</a></p>
+        <p>Country: Chile</p>
+      </div>
+    </section>
+
+    <footer class="doc-footer">
+      <span>© 2026 Anima Ignea. All rights reserved.</span>
+      <span>
+        <a href="privacy-policy.html">Privacy Policy</a> ·
+        <a href="data-deletion.html">Data Deletion</a>
+      </span>
+    </footer>
+  </main>
+</div>
+
+<script>
+function toggleToc(btn) {
+  const body = document.getElementById('toc-body');
+  const isOpen = btn.classList.toggle('open');
+  btn.setAttribute('aria-expanded', isOpen);
+  body.classList.toggle('open', isOpen);
+}
+const sections = document.querySelectorAll('.doc-section[id]');
+const tocItems = document.querySelectorAll('.toc-item');
+function updateToc() {
+  let current = '';
+  sections.forEach(s => { if (window.scrollY + 100 >= s.offsetTop) current = s.id; });
+  tocItems.forEach(item => {
+    const link = item.querySelector('.toc-link');
+    item.classList.toggle('active', link && link.getAttribute('href') === '#' + current);
+  });
+}
+window.addEventListener('scroll', updateToc, { passive: true });
+updateToc();
+</script>
+</body>
+</html>

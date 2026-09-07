@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DogGO</title>
+<meta name="description" content="Track every walk, take care of your dog, and reward every step. DogGO is the GPS walk tracker built for dogs and their people.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap">
+<style>
+/* ── Tokens ─────────────────────────────────────────── */
+:root {
+  --bg:         #050B18;
+  --surface:    #0C1528;
+  --surface-2:  #111E35;
+  --text:       #E8EDF8;
+  --text-muted: #6B82A8;
+  --border:     #1A2744;
+  --accent:     #4F7FFA;
+  --accent-dim: #0A1540;
+  --gold:       #F59E0B;
+  --gold-dim:   #1C1405;
+  --shadow:     0 4px 32px rgba(0,0,0,.45);
+  --glow:       0 0 28px rgba(79,127,250,.3);
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg:         #EEF2FC;
+    --surface:    #FFFFFF;
+    --surface-2:  #E4EAF8;
+    --text:       #0B1730;
+    --text-muted: #5A6B8C;
+    --border:     #D0DCEF;
+    --accent:     #1D4ED8;
+    --accent-dim: #E8EDF8;
+    --gold:       #D97706;
+    --gold-dim:   #FEF3C7;
+    --shadow:     0 4px 24px rgba(13,27,62,.09);
+    --glow:       0 0 20px rgba(29,78,216,.2);
+  }
+}
+:root[data-theme="light"] {
+  --bg:         #EEF2FC;
+  --surface:    #FFFFFF;
+  --surface-2:  #E4EAF8;
+  --text:       #0B1730;
+  --text-muted: #5A6B8C;
+  --border:     #D0DCEF;
+  --accent:     #1D4ED8;
+  --accent-dim: #E8EDF8;
+  --gold:       #D97706;
+  --gold-dim:   #FEF3C7;
+  --shadow:     0 4px 24px rgba(13,27,62,.09);
+  --glow:       0 0 20px rgba(29,78,216,.2);
+}
+
+/* ── Reset ──────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
+body {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Nav ────────────────────────────────────────────── */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  height: 62px;
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  background: rgba(5,11,24,.82);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(255,255,255,.05);
+  transition: background .3s;
+}
+.nav.scrolled { background: rgba(5,11,24,.96); }
+.logo {
+  display: flex; align-items: center; gap: .5rem;
+  text-decoration: none; flex-shrink: 0;
+}
+.logo-paw { width: 26px; height: 26px; color: var(--accent); }
+.logo-name {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800; font-size: 1.125rem;
+  color: #E8EDF8; letter-spacing: -.02em;
+}
+.nav-links {
+  display: flex; align-items: center; gap: 1.75rem;
+  list-style: none; margin-left: auto;
+}
+.nav-links a {
+  font-size: .875rem; font-weight: 500;
+  color: rgba(232,237,248,.55); text-decoration: none;
+  transition: color .15s;
+}
+.nav-links a:hover { color: #E8EDF8; }
+.nav-cta {
+  font-size: .875rem; font-weight: 600;
+  color: var(--bg); background: var(--accent);
+  border-radius: 8px; padding: .45rem 1.1rem;
+  text-decoration: none; flex-shrink: 0;
+  transition: opacity .15s;
+}
+.nav-cta:hover { opacity: .88; }
+
+/* Light nav override */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) .nav {
+    background: rgba(238,242,252,.88);
+    border-bottom-color: rgba(0,0,0,.07);
+  }
+  :root:not([data-theme="dark"]) .nav.scrolled {
+    background: rgba(238,242,252,.97);
+  }
+  :root:not([data-theme="dark"]) .logo-name { color: #0B1730; }
+  :root:not([data-theme="dark"]) .nav-links a { color: rgba(11,23,48,.55); }
+  :root:not([data-theme="dark"]) .nav-links a:hover { color: #0B1730; }
+}
+:root[data-theme="light"] .nav { background: rgba(238,242,252,.88); border-bottom-color: rgba(0,0,0,.07); }
+:root[data-theme="light"] .nav.scrolled { background: rgba(238,242,252,.97); }
+:root[data-theme="light"] .logo-name { color: #0B1730; }
+:root[data-theme="light"] .nav-links a { color: rgba(11,23,48,.55); }
+:root[data-theme="light"] .nav-links a:hover { color: #0B1730; }
+
+/* ── Hero ───────────────────────────────────────────── */
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  padding: 100px 2rem 5rem;
+}
+#trail-canvas {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+}
+.hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(105deg,
+    rgba(5,11,24,.97) 0%,
+    rgba(5,11,24,.91) 35%,
+    rgba(5,11,24,.52) 60%,
+    rgba(5,11,24,.08) 100%
+  );
+  pointer-events: none;
+}
+.hero-content {
+  position: relative; z-index: 2;
+  max-width: 580px;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: .5rem;
+  font-size: .6875rem; font-weight: 600;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--accent);
+  background: rgba(79,127,250,.1);
+  border: 1px solid rgba(79,127,250,.22);
+  border-radius: 100px;
+  padding: .3rem 1rem;
+  margin-bottom: 2rem;
+}
+.hero-badge-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%; background: var(--accent);
+  animation: blink 2s ease infinite;
+}
+@keyframes blink {
+  0%,100% { opacity:1; transform:scale(1); }
+  50% { opacity:.4; transform:scale(.6); }
+}
+.hero-h1 {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(2.75rem, 6.5vw, 4.75rem);
+  line-height: 1.03; letter-spacing: -.035em;
+  text-wrap: balance; margin-bottom: 1.25rem;
+  color: #E8EDF8;
+}
+.hero-h1 em { font-style: normal; color: var(--accent); }
+.hero-sub {
+  font-size: clamp(.975rem, 2vw, 1.125rem);
+  font-weight: 300; line-height: 1.65;
+  color: rgba(232,237,248,.65);
+  max-width: 42ch; text-wrap: balance;
+  margin-bottom: 2.75rem;
+}
+.store-row {
+  display: flex; flex-wrap: wrap; gap: .875rem;
+  align-items: center; margin-bottom: 1.5rem;
+}
+.store-btn {
+  display: inline-flex; align-items: center; gap: .75rem;
+  padding: .75rem 1.4rem; border-radius: 12px;
+  text-decoration: none;
+  transition: transform .18s, box-shadow .18s;
+}
+.store-btn:hover { transform: translateY(-3px); }
+.store-btn.apple {
+  background: #E8EDF8; color: #050B18;
+}
+.store-btn.apple:hover { box-shadow: 0 8px 28px rgba(232,237,248,.18); }
+.store-btn.google {
+  background: var(--surface-2); color: #E8EDF8;
+  border: 1px solid var(--border);
+}
+.store-btn.google:hover { box-shadow: var(--glow); border-color: var(--accent); }
+.store-btn-icon { width: 22px; height: 22px; flex-shrink: 0; }
+.store-btn-label { display: flex; flex-direction: column; line-height: 1.15; }
+.store-btn-eyebrow {
+  font-size: .6rem; font-weight: 600;
+  letter-spacing: .07em; text-transform: uppercase;
+  opacity: .55;
+}
+.store-btn-name { font-size: .9375rem; font-weight: 600; }
+.store-soon {
+  font-size: .75rem; color: var(--text-muted); letter-spacing: .01em;
+  display: flex; align-items: center; gap: .5rem;
+}
+.soon-badge {
+  background: var(--gold-dim); color: var(--gold);
+  font-size: .625rem; font-weight: 700;
+  letter-spacing: .08em; text-transform: uppercase;
+  padding: .15rem .5rem; border-radius: 4px;
+  border: 1px solid rgba(245,158,11,.2);
+}
+
+/* Light mode hero overlay */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) .hero-overlay {
+    background: linear-gradient(105deg,
+      rgba(238,242,252,.97) 0%,
+      rgba(238,242,252,.91) 35%,
+      rgba(238,242,252,.52) 60%,
+      rgba(238,242,252,.08) 100%
+    );
+  }
+  :root:not([data-theme="dark"]) .hero-h1 { color: #0B1730; }
+  :root:not([data-theme="dark"]) .hero-sub { color: rgba(11,23,48,.6); }
+  :root:not([data-theme="dark"]) .store-btn.apple { background: #0B1730; color: #fff; }
+  :root:not([data-theme="dark"]) .store-btn.google { background: var(--surface); color: #0B1730; }
+  :root:not([data-theme="dark"]) .hero-badge { background: rgba(29,78,216,.08); border-color: rgba(29,78,216,.2); }
+}
+:root[data-theme="light"] .hero-overlay {
+  background: linear-gradient(105deg,
+    rgba(238,242,252,.97) 0%,
+    rgba(238,242,252,.91) 35%,
+    rgba(238,242,252,.52) 60%,
+    rgba(238,242,252,.08) 100%
+  );
+}
+:root[data-theme="light"] .hero-h1 { color: #0B1730; }
+:root[data-theme="light"] .hero-sub { color: rgba(11,23,48,.6); }
+:root[data-theme="light"] .store-btn.apple { background: #0B1730; color: #fff; }
+:root[data-theme="light"] .store-btn.google { background: var(--surface); color: #0B1730; }
+:root[data-theme="light"] .hero-badge { background: rgba(29,78,216,.08); border-color: rgba(29,78,216,.2); }
+
+/* Scroll hint */
+.scroll-hint {
+  position: absolute; bottom: 2.5rem; left: 50%;
+  transform: translateX(-50%); z-index: 2;
+  display: flex; flex-direction: column; align-items: center; gap: .5rem;
+  color: var(--text-muted); font-size: .625rem;
+  letter-spacing: .12em; text-transform: uppercase;
+}
+.scroll-bar {
+  width: 1px; height: 40px;
+  background: linear-gradient(to bottom, var(--text-muted), transparent);
+  animation: scrollpulse 2.2s ease infinite;
+}
+@keyframes scrollpulse {
+  0%,100% { opacity:.3; transform:scaleY(1); }
+  55% { opacity:.9; transform:scaleY(1.12); }
+}
+
+/* ── Features ───────────────────────────────────────── */
+.features {
+  padding: 7rem 2rem;
+  max-width: 1100px; margin: 0 auto;
+}
+.section-eyebrow {
+  font-size: .6875rem; font-weight: 600;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: .875rem;
+}
+.section-h2 {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.625rem, 3.5vw, 2.25rem);
+  letter-spacing: -.025em; text-wrap: balance; line-height: 1.18;
+  margin-bottom: 3.5rem; max-width: 34ch;
+  color: var(--text);
+}
+.features-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem;
+}
+.feature-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px; padding: 2rem 1.75rem;
+  transition: border-color .22s, box-shadow .22s, transform .22s;
+}
+.feature-card:hover {
+  border-color: var(--accent);
+  box-shadow: var(--glow);
+  transform: translateY(-3px);
+}
+.feature-card.gold:hover {
+  border-color: var(--gold);
+  box-shadow: 0 0 28px rgba(245,158,11,.22);
+}
+.feature-icon {
+  width: 46px; height: 46px;
+  border-radius: 11px; background: var(--accent-dim);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 1.375rem; color: var(--accent);
+}
+.feature-card.gold .feature-icon {
+  background: var(--gold-dim); color: var(--gold);
+}
+.feature-h3 {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700; font-size: 1.0625rem;
+  letter-spacing: -.01em; margin-bottom: .625rem;
+  color: var(--text);
+}
+.feature-p {
+  font-size: .9rem; color: var(--text-muted); line-height: 1.62;
+}
+
+/* ── Divider ─────────────────────────────────────────── */
+.divider {
+  border: none; border-top: 1px solid var(--border);
+  max-width: 1100px; margin: 0 auto;
+}
+
+/* ── Contact ────────────────────────────────────────── */
+.contact {
+  padding: 7rem 2rem;
+  max-width: 1100px; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 5rem; align-items: start;
+}
+.contact-h2 {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  letter-spacing: -.025em; text-wrap: balance;
+  line-height: 1.2; margin-bottom: .875rem;
+  color: var(--text);
+}
+.contact-sub {
+  font-size: .9375rem; color: var(--text-muted);
+  line-height: 1.65; margin-bottom: 1.5rem; max-width: 38ch;
+}
+.contact-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 16px; padding: 1.75rem;
+}
+.email-row {
+  display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;
+}
+.email-icon {
+  width: 42px; height: 42px; border-radius: 10px;
+  background: var(--accent-dim); color: var(--accent);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.email-label {
+  font-size: .6875rem; font-weight: 600;
+  letter-spacing: .08em; text-transform: uppercase;
+  color: var(--text-muted); margin-bottom: .25rem;
+}
+.email-addr { font-size: .9375rem; font-weight: 600; }
+.email-addr a {
+  color: var(--accent); text-decoration: none;
+}
+.email-addr a:hover { text-decoration: underline; }
+.card-divider { border: none; border-top: 1px solid var(--border); margin: 1.25rem 0; }
+.legal-label {
+  font-size: .6875rem; font-weight: 600;
+  letter-spacing: .08em; text-transform: uppercase;
+  color: var(--text-muted); margin-bottom: .875rem;
+}
+.legal-links { display: flex; flex-wrap: wrap; gap: .5rem; }
+.legal-link {
+  font-size: .8125rem; color: var(--text-muted);
+  text-decoration: none; padding: .35rem .8rem;
+  border: 1px solid var(--border); border-radius: 6px;
+  transition: color .15s, border-color .15s;
+}
+.legal-link:hover { color: var(--accent); border-color: var(--accent); }
+
+/* ── Footer ─────────────────────────────────────────── */
+.footer {
+  border-top: 1px solid var(--border);
+  padding: 2rem;
+  max-width: 1100px; margin: 0 auto;
+  display: flex; align-items: center;
+  justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+}
+.footer-copy { font-size: .8125rem; color: var(--text-muted); }
+.footer-links { display: flex; gap: 1.25rem; list-style: none; }
+.footer-links a {
+  font-size: .8125rem; color: var(--text-muted);
+  text-decoration: none; transition: color .15s;
+}
+.footer-links a:hover { color: var(--accent); }
+
+/* ── Responsive ─────────────────────────────────────── */
+@media (max-width: 900px) {
+  .features-grid { grid-template-columns: 1fr; gap: 1rem; }
+  .contact { grid-template-columns: 1fr; gap: 2.5rem; }
+  .nav-links { display: none; }
+}
+@media (max-width: 600px) {
+  .hero-overlay {
+    background: linear-gradient(180deg,
+      rgba(5,11,24,.97) 55%, rgba(5,11,24,.75) 100%
+    );
+  }
+  .store-row { flex-direction: column; align-items: flex-start; }
+  .footer { flex-direction: column; align-items: flex-start; gap: .875rem; }
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) .scroll-hint { color: var(--text-muted); }
+}
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav class="nav" id="site-nav" aria-label="Main navigation">
+  <a href="#" class="logo" aria-label="DogGO home">
+    <svg class="logo-paw" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <ellipse cx="5.5" cy="6.5" rx="2" ry="2.5" fill="currentColor" opacity=".7"/>
+      <ellipse cx="9" cy="4" rx="1.75" ry="2.25" fill="currentColor" opacity=".85"/>
+      <ellipse cx="13" cy="4" rx="1.75" ry="2.25" fill="currentColor" opacity=".85"/>
+      <ellipse cx="16.5" cy="6.5" rx="2" ry="2.5" fill="currentColor" opacity=".7"/>
+      <path d="M12 9c-3.5 0-6.5 2-6.5 5.5C5.5 18.5 8 21 12 21s6.5-2.5 6.5-6.5C18.5 11 15.5 9 12 9z" fill="currentColor"/>
+    </svg>
+    <span class="logo-name">DogGO</span>
+  </a>
+  <ul class="nav-links" role="list">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="privacy-policy.html">Privacy</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Download</a>
+</nav>
+
+<!-- Hero -->
+<section class="hero" aria-label="Hero">
+  <canvas id="trail-canvas" aria-hidden="true"></canvas>
+  <div class="hero-overlay" aria-hidden="true"></div>
+
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="hero-badge-dot" aria-hidden="true"></span>
+      Now in development
+    </div>
+
+    <h1 class="hero-h1">
+      Track every<br>walk. <em>Reward</em><br>every step.
+    </h1>
+
+    <p class="hero-sub">
+      Track every walk, take care of your dog, and reward every step while doing it — with GPS trail maps, XP, and Biscuits.
+    </p>
+
+    <div class="store-row">
+      <!-- Update href to App Store link when live -->
+      <a href="#" class="store-btn apple" aria-label="Download on the App Store">
+        <svg class="store-btn-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+        </svg>
+        <span class="store-btn-label">
+          <span class="store-btn-eyebrow">Download on the</span>
+          <span class="store-btn-name">App Store</span>
+        </span>
+      </a>
+
+      <!-- Update href to Google Play link when live -->
+      <a href="#" class="store-btn google" aria-label="Get it on Google Play">
+        <svg class="store-btn-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M3.18 23.76A2 2 0 0 1 2 22V2a2 2 0 0 1 1.18-1.76l11.65 11.76zm12.1-13.12 2.92-2.91L5.17.57A2 2 0 0 0 4 .24zm3.44 4.96L16.05 14l2.67-2.69-6.14-3.19zm-1.54 1.57L5.17 23.43a2 2 0 0 0 1.17-.34z"/>
+        </svg>
+        <span class="store-btn-label">
+          <span class="store-btn-eyebrow">Get it on</span>
+          <span class="store-btn-name">Google Play</span>
+        </span>
+      </a>
+    </div>
+
+    <p class="store-soon">
+      <span class="soon-badge">Coming soon</span>
+      Links will be active on launch
+    </p>
+  </div>
+
+  <div class="scroll-hint" aria-hidden="true">
+    <span>Scroll</span>
+    <span class="scroll-bar"></span>
+  </div>
+</section>
+
+<!-- Features -->
+<section class="features" id="features" aria-labelledby="features-heading">
+  <p class="section-eyebrow">What DogGO does</p>
+  <h2 class="section-h2" id="features-heading">
+    Everything your walks deserve.
+  </h2>
+
+  <div class="features-grid">
+    <!-- GPS Trail -->
+    <div class="feature-card">
+      <div class="feature-icon" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+          <circle cx="12" cy="10" r="3"/>
+        </svg>
+      </div>
+      <h3 class="feature-h3">Real-time GPS trail map</h3>
+      <p class="feature-p">Watch your route appear on an interactive map as you walk. Every path saved, every distance tracked — automatically.</p>
+    </div>
+
+    <!-- XP & Biscuits -->
+    <div class="feature-card gold">
+      <div class="feature-icon" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+        </svg>
+      </div>
+      <h3 class="feature-h3">XP &amp; Biscuits rewards</h3>
+      <p class="feature-p">Every walk earns experience points and Biscuits — DogGO's virtual currency. Walk more, level up, unlock more.</p>
+    </div>
+
+    <!-- Dog profiles -->
+    <div class="feature-card">
+      <div class="feature-icon" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <ellipse cx="6" cy="7" rx="1.8" ry="2.2" opacity=".7"/>
+          <ellipse cx="9.5" cy="5" rx="1.6" ry="2" opacity=".85"/>
+          <ellipse cx="13.5" cy="5" rx="1.6" ry="2" opacity=".85"/>
+          <ellipse cx="17" cy="7" rx="1.8" ry="2.2" opacity=".7"/>
+          <path d="M11.5 9.5c-3.2 0-5.8 1.8-5.8 4.9 0 3.2 2.2 5.6 5.8 5.6s5.8-2.4 5.8-5.6c0-3.1-2.6-4.9-5.8-4.9z"/>
+        </svg>
+      </div>
+      <h3 class="feature-h3">Dog profiles</h3>
+      <p class="feature-p">Create a profile for each dog. Track their individual stats, manage multiple dogs, and watch them grow walk by walk.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- Contact -->
+<section class="contact" id="contact" aria-labelledby="contact-heading">
+  <div class="contact-left">
+    <p class="section-eyebrow">Get in touch</p>
+    <h2 class="contact-h2" id="contact-heading">
+      Questions or feedback?
+    </h2>
+    <p class="contact-sub">
+      We're building DogGO to be the app that dog owners actually want. Reach out any time — we read every message.
+    </p>
+  </div>
+
+  <div class="contact-right">
+    <div class="contact-card">
+      <div class="email-row">
+        <div class="email-icon" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="20" height="16" x="2" y="4" rx="2"/>
+            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+          </svg>
+        </div>
+        <div>
+          <p class="email-label">Support &amp; general</p>
+          <p class="email-addr">
+            <a href="mailto:doggoapp.management@gmail.com">doggoapp.management@gmail.com</a>
+          </p>
+        </div>
+      </div>
+
+      <hr class="card-divider">
+
+      <p class="legal-label">Legal documents</p>
+      <div class="legal-links">
+        <a class="legal-link" href="privacy-policy.html">Privacy Policy</a>
+        <a class="legal-link" href="terms.html">Terms of Service</a>
+        <a class="legal-link" href="data-deletion.html">Data Deletion</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer">
+    <span class="footer-copy">© 2026 Anima Ignea. All rights reserved.</span>
+    <ul class="footer-links" role="list">
+      <li><a href="privacy-policy.html">Privacy</a></li>
+      <li><a href="terms.html">Terms</a></li>
+      <li><a href="data-deletion.html">Data Deletion</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script>
+/* ── Nav scroll state ────────────────────────────────── */
+const nav = document.getElementById('site-nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 30);
+}, { passive: true });
+
+/* ── Canvas GPS trail animation ─────────────────────── */
+(function () {
+  const canvas = document.getElementById('trail-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, dpr;
+
+  // Normalized waypoints — a realistic dog-walk loop
+  const WAY = [
+    [.14,.54],[.18,.38],[.26,.27],[.38,.20],[.50,.21],
+    [.61,.26],[.70,.35],[.76,.48],[.73,.62],[.65,.70],
+    [.68,.80],[.57,.86],[.44,.84],[.36,.75],[.28,.82],
+    [.17,.76],[.12,.64],[.14,.54]
+  ];
+
+  // Build dense smooth path via Catmull-Rom
+  function cr(p0,p1,p2,p3,t){
+    return [
+      .5*((2*p1[0])+(-p0[0]+p2[0])*t+(2*p0[0]-5*p1[0]+4*p2[0]-p3[0])*t*t+(-p0[0]+3*p1[0]-3*p2[0]+p3[0])*t*t*t),
+      .5*((2*p1[1])+(-p0[1]+p2[1])*t+(2*p0[1]-5*p1[1]+4*p2[1]-p3[1])*t*t+(-p0[1]+3*p1[1]-3*p2[1]+p3[1])*t*t*t)
+    ];
+  }
+  function buildPath(way, steps) {
+    const pts = [], n = way.length - 1;
+    for (let i = 0; i < n; i++) {
+      const p0 = way[Math.max(0, i-1)];
+      const p1 = way[i];
+      const p2 = way[i+1];
+      const p3 = way[Math.min(n, i+2)];
+      for (let s = 0; s < steps; s++) pts.push(cr(p0,p1,p2,p3,s/steps));
+    }
+    pts.push(way[n]);
+    return pts;
+  }
+  const PATH = buildPath(WAY, 24);
+
+  function resize() {
+    dpr = window.devicePixelRatio || 1;
+    W = canvas.offsetWidth;
+    H = canvas.offsetHeight;
+    canvas.width  = W * dpr;
+    canvas.height = H * dpr;
+    ctx.scale(dpr, dpr);
+  }
+
+  function isDark() {
+    const t = document.documentElement.getAttribute('data-theme');
+    if (t === 'dark') return true;
+    if (t === 'light') return false;
+    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+  }
+
+  const DRAW_DUR  = 9000;  // ms to draw full trail
+  const HOLD_DUR  = 2000;  // ms to hold before reset
+  const FADE_DUR  = 800;   // ms fade-out
+  const TOTAL_DUR = DRAW_DUR + HOLD_DUR + FADE_DUR;
+  let startTime = null;
+
+  function frame(ts) {
+    if (!startTime) startTime = ts;
+    const elapsed = (ts - startTime) % TOTAL_DUR;
+
+    let progress, alpha;
+    if (elapsed < DRAW_DUR) {
+      progress = elapsed / DRAW_DUR;
+      alpha = 1;
+    } else if (elapsed < DRAW_DUR + HOLD_DUR) {
+      progress = 1;
+      alpha = 1;
+    } else {
+      progress = 1;
+      alpha = 1 - (elapsed - DRAW_DUR - HOLD_DUR) / FADE_DUR;
+    }
+
+    const dark = isDark();
+    const accentHex  = dark ? '#4F7FFA' : '#1D4ED8';
+    const gridColor  = dark ? 'rgba(79,127,250,.04)' : 'rgba(29,78,216,.05)';
+    const coreColor  = dark ? 'rgba(180,210,255,.65)' : 'rgba(255,255,255,.9)';
+
+    ctx.clearRect(0, 0, W, H);
+
+    // Grid
+    ctx.save();
+    ctx.globalAlpha = alpha;
+    ctx.strokeStyle = gridColor;
+    ctx.lineWidth = 1;
+    const GRID = 56;
+    for (let x = 0; x < W; x += GRID) {
+      ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke();
+    }
+    for (let y = 0; y < H; y += GRID) {
+      ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke();
+    }
+    ctx.restore();
+
+    const end = Math.max(1, Math.floor(progress * (PATH.length - 1)));
+
+    // Glow layer
+    ctx.save();
+    ctx.globalAlpha = alpha * .85;
+    ctx.beginPath();
+    ctx.moveTo(PATH[0][0]*W, PATH[0][1]*H);
+    for (let i = 1; i <= end; i++) ctx.lineTo(PATH[i][0]*W, PATH[i][1]*H);
+    ctx.strokeStyle = accentHex;
+    ctx.lineWidth = 7;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.shadowBlur = 20;
+    ctx.shadowColor = accentHex;
+    ctx.stroke();
+    ctx.restore();
+
+    // Core line
+    ctx.save();
+    ctx.globalAlpha = alpha * .7;
+    ctx.beginPath();
+    ctx.moveTo(PATH[0][0]*W, PATH[0][1]*H);
+    for (let i = 1; i <= end; i++) ctx.lineTo(PATH[i][0]*W, PATH[i][1]*H);
+    ctx.strokeStyle = coreColor;
+    ctx.lineWidth = 2;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.shadowBlur = 0;
+    ctx.stroke();
+    ctx.restore();
+
+    // Start marker
+    const sp = PATH[0];
+    ctx.save();
+    ctx.globalAlpha = alpha;
+    ctx.beginPath();
+    ctx.arc(sp[0]*W, sp[1]*H, 5, 0, Math.PI*2);
+    ctx.fillStyle = '#fff';
+    ctx.shadowBlur = 12; ctx.shadowColor = accentHex;
+    ctx.fill();
+    ctx.restore();
+
+    // Current position dot + pulse ring
+    const ep = PATH[end];
+    const pulse = Math.sin(ts / 420) * .5 + .5;
+
+    ctx.save();
+    ctx.globalAlpha = alpha * (.25 + pulse * .3);
+    ctx.beginPath();
+    ctx.arc(ep[0]*W, ep[1]*H, 11 + pulse*5, 0, Math.PI*2);
+    ctx.strokeStyle = accentHex;
+    ctx.lineWidth = 1.5;
+    ctx.shadowBlur = 0;
+    ctx.stroke();
+    ctx.restore();
+
+    ctx.save();
+    ctx.globalAlpha = alpha;
+    ctx.beginPath();
+    ctx.arc(ep[0]*W, ep[1]*H, 6, 0, Math.PI*2);
+    ctx.fillStyle = accentHex;
+    ctx.shadowBlur = 16; ctx.shadowColor = accentHex;
+    ctx.fill();
+    ctx.restore();
+
+    requestAnimationFrame(frame);
+  }
+
+  window.addEventListener('resize', resize, { passive: true });
+  resize();
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
